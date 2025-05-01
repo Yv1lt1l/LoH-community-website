@@ -19,3 +19,8 @@ h2 {
   text-align: center;
   font-family: "Raleway", serif;
 }
+
+a,
+img {
+  color: #000;
+}
