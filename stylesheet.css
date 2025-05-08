@@ -1,17 +1,93 @@
 html {
   font-size: 62.5%;
+  display: grid;
 }
 
 body {
   display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  margin: 0;
   font-size: 1.6rem;
-  grid-template-columns: auto;
-  grid-template-rows: auto;
+  grid-template-columns: 22rem 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  gap: 1rem;
+  padding: 1rem;
+  grid-column: 1/5;
 }
 
 header {
+  display: flex;
+  grid-area: header;
+  align-items: center;
+  gap: 1rem;
   font-size: 1.6rem;
-  grid-column: 1/5;
+}
+
+.sidebar {
+  margin-top: 1.6rem;
+  grid-area: sidebar;
+  background: #ffffff;
+  font-size: 1.6rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.sidebar h3 {
+  font-family: "Nunito";
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.25rem;
+}
+
+.sidebar a {
+  color: #fafafa;
+  font-family: "Nunito";
+  font-size: 1.6rem;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  color: #ffcc00;
+}
+
+main {
+  grid-area: main;
+}
+
+header img {
+  height: 12.5rem;
+  width: auto;
+}
+
+.sidebar a {
+  color: #000;
+  text-decoration: none;
+  display: grid;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+  border-left: 0.3rem solid transparent;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  border-left: 0.3rem solid #ffcc00;
+  background-color: #444;
+}
+
+p {
+  font-family: "Nunito", serif;
+  text-align: center;
 }
 
 h1,
@@ -20,7 +96,46 @@ h2 {
   font-family: "Raleway", serif;
 }
 
-a,
-img {
+.section-container {
+  place-items: center;
+}
+
+.card-holder {
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+.cards {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+article {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  background-color: #868686;
+  text-align: center;
+  max-width: fit-content;
+  border-radius: 1rem;
+  padding: 8px;
+}
+
+article a {
+  margin: 5px;
+  font-weight: bold;
   color: #000;
+  text-decoration: none;
+  font-family: "Nunito";
+  background-color: #ffffff;
+  border: 1px solid #272727;
+  border-radius: 1rem;
+  padding: 3px 5px;
+}
+
+footer {
+  grid-area: footer;
 }

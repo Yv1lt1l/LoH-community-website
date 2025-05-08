@@ -16,17 +16,45 @@
   <body>
     <!--Header with logo and nav elements-->
     <header>
-      <img
-        src="images/Logos/LOH_BI_2LINE_BG_LIGHT.jpg"
-        alt="Lord of Heroes logo"
-        width="250px"
-        height="150px"
-      />
+      <a href="index.html"
+        ><img
+          src="images/Logos/LOH_BI_2LINE_BG_LIGHT.jpg"
+          alt="Lord of Heroes logo"
+          width="250px"
+          height="150px"
+      /></a>
+
       <h1>Welcome to the Lord of Heroes Chronicles Wiki!</h1>
     </header>
     <!--End of header-->
 
     <!--Start of hub page-->
+    <aside class="sidebar">
+      <h2>Quick nav</h2>
+      <section class="filters">
+        <h3>Filter by Element</h3>
+        <ul>
+          <li><a href="#">Fire</a></li>
+          <li><a href="#">Water</a></li>
+          <li><a href="#">Earth</a></li>
+          <li><a href="#">Light</a></li>
+          <li><a href="#">Dark</a></li>
+        </ul>
+        <h3>Filter by Class</h3>
+        <ul>
+          <li><a href="#">Striker</a></li>
+          <li><a href="#">Warrior</a></li>
+          <li><a href="#">Guardian</a></li>
+          <li><a href="#">Cleric</a></li>
+          <li><a href="#">Commander</a></li>
+          <li><a href="#">Sniper</a></li>
+        </ul>
+      </section>
+      <section class="lore-box">
+        <h3>Lore</h3>
+        <p>find lore here</p>
+      </section>
+    </aside>
     <main>
       <h2>Home</h2>
       <p>
@@ -34,26 +62,20 @@
         mobile game Lord of Heroes. Including characters, builds, guides,
         tips&amp;tricks and more!
       </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Jump to a section</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <a href="characters/characters.html"
-                >characters<img
-                  src="images/Section thumbnail/icon_archive_hero.png"
-                  alt="LoH character icon"
-                  width="250px"
-                  height="150px"
-              /></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <section class="section-container">
+        <h2>Jump to a Section</h2>
+        <section class="card-holder">
+          <article class="cards">
+            <img
+              src="images/Section thumbnail/icon_archive_hero.png"
+              alt="LoH character icon"
+              width="125px"
+              height="auto"
+            />
+            <a href="characters/characters.html">Characters</a>
+          </article>
+        </section>
+      </section>
     </main>
     <!--End of main hub-->
 
