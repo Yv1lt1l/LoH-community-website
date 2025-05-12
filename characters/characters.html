@@ -11,28 +11,43 @@
       rel="stylesheet"
     />
     <title>characters</title>
+    <script src="scripts.js" defer></script>
   </head>
 
   <body>
     <header>
-      <img src="images" alt="" />
+      <a
+        href="C:\Users\alexm\Desktop\LoH website\LoH-community-website\index.html"
+      >
+        <img
+          src="C:\Users\alexm\Desktop\LoH website\LoH-community-website\images\Logos\LOH_BI_2LINE_BG_LIGHT.jpg"
+          width="125px"
+          height="auto"
+          alt=""
+      /></a>
       <h1>Characters Page</h1>
     </header>
 
     <main>
       <section class="filter-bar">
-        <button>All</button>
-        <button>Fire</button>
-        <button>Water</button>
-        <button>Earth</button>
-        <button>Light</button>
-        <button>Dark</button>
-        <button>Striker</button>
-        <button>Warrior</button>
-        <button>Guardian</button>
-        <button>Cleric</button>
-        <button>Commander</button>
-        <button>Sniper</button>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search Characters..."
+        />
+        <button id="scrollTopBtn">&uarr;</button>
+        <button data-filter="all">All</button>
+        <button data-filter="fire">Fire</button>
+        <button data-filter="water">Water</button>
+        <button data-filter="earth">Earth</button>
+        <button data-filter="light">Light</button>
+        <button data-filter="dark">Dark</button>
+        <button data-filter="striker">Striker</button>
+        <button data-filter="warrior">Warrior</button>
+        <button data-filter="guardian">Guardian</button>
+        <button data-filter="cleric">Cleric</button>
+        <button data-filter="commander">Commander</button>
+        <button data-filter="sniper">Sniper</button>
       </section>
       <section>
         <article class="cards">
