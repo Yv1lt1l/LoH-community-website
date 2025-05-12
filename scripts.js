@@ -26,11 +26,15 @@ const filterButtons = document.querySelectorAll(".filter-bar button");
 
 filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    const filter = btn.dataset.filter;
+    const filter = btn.dataset.filter.toLocaleLowerCase();
     cards.forEach((card) => {
       const element = card.dataset.element?.toLocaleLowerCase();
+      const classes = card.dataset.class?.toLocaleLowerCase();
+
       card.style.display =
-        filter === "all" || element === filter ? "block" : "none";
+        filter === "all" || element === filter || classes === filter
+          ? "block"
+          : "none";
     });
   });
 });
@@ -40,11 +44,11 @@ filterButtons.forEach((btn) => {
 const scrollBtn = document.getElementById("scrollTopBtn");
 
 if (scrollBtn) {
-  Window.addEventListener("scroll", () => {
-    scrollBtn.style.display = Window.scrollY > 300 ? "block" : "none";
+  window.addEventListener("scroll", () => {
+    scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
   });
 
   scrollBtn.addEventListener("click", () => {
-    Window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
