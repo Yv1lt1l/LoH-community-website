@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const filterButtons = document.querySelectorAll(".filter-bar button");
   const scrollBtn = document.getElementById("scrollTopBtn");
+  const resetBtn = document.getElementById("resetFilters");
   const container = document.getElementById("characterGrid");
 
   const normalize = (str) => str?.toLocaleLowerCase().trim() || "";
@@ -67,6 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const filter = normalize(btn.dataset.filter);
+
+      // highlight filter
+
       cards.forEach((card) => {
         const element = normalize(card.dataset.element);
         const classes = normalize(card.dataset.class);
@@ -76,6 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      //clear search input
+      if (searchInput) searchInput.value = "";
+
+      cards.forEach((card) => (card.style.display = "block"));
+    });
+  }
   // scroll to top
 
   if (scrollBtn) {

@@ -146,3 +146,45 @@ article a {
 footer {
   grid-area: footer;
 }
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1 fr));
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #cdcdcd;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0.2rem 1rem #b6898900;
+}
+
+.filter-bar input[type="text"] {
+  grid-column: span 2;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  font-size: 1rem;
+}
+
+.filter-bar button {
+  background-color: #2c2c2c;
+  color: #eee;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-bar button:hover {
+  background-color: #444;
+}
+
+.filter-bar button.active {
+  background-color: #ffcc00;
+  color: #222;
+  font-weight: bold;
+}
