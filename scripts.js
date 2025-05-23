@@ -4,14 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Water Lairei",
       element: "water",
       class: "sniper",
-      image: "images/WLai.jpg",
+      image: "../images/character-images/water-Lai.jpg",
       profile: "characters/WLairei.html",
     },
     {
       name: "Earth Icateztol",
       element: "earth",
       class: "striker",
-      image: "images/ETez",
+      image: "../images/character-images/earth-icateztol.jpg",
       profile: "characters/WLairei.html",
     },
     // add more characters here...
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.dataset.class = normalize(char.class);
 
     card.innerHTML = `
-    <img src="${char.img}" alt="${char.name}">
+    <img src="${char.image}" alt="${char.name}">
     <h2>${char.name}</h2>
     <p>${char.element} | ${char.class}</p>
     <a href="${char.profile}">View Profile</a>
