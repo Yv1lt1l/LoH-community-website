@@ -1,0 +1,54 @@
+# Dependencias de Node
+node_modules/
+/dist/
+/.env
+/.env.local
+/.env.*.local
+.npm
+.pnpm
+.yarn-integrity
+
+# Archivos de desarrollo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Archivos de Vue.js
+*.log
+.DS_Store
+
+# Build outputs
+/.output
+.cache/
+.temp/
+
+# Vite specific
+.cache/
+.temp/
+*.local
+
+# Build files
+dist/
+dist-ssr/
+*.chunk.js
+*.chunk.js.map
+*.chunk.css
+*.chunk.css.map
+
+# Vite cache
+.vite/
+__vite_packages/
+
+# Development files
+.env.local
+.env.*.local
