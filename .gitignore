@@ -4,6 +4,9 @@ node_modules/
 /.env
 /.env.local
 /.env.*.local
+.npm
+.pnpm
+.yarn-integrity
 
 # Archivos de desarrollo
 npm-debug.log*
@@ -28,3 +31,24 @@ yarn-error.log*
 /.output
 .cache/
 .temp/
+
+# Vite specific
+.cache/
+.temp/
+*.local
+
+# Build files
+dist/
+dist-ssr/
+*.chunk.js
+*.chunk.js.map
+*.chunk.css
+*.chunk.css.map
+
+# Vite cache
+.vite/
+__vite_packages/
+
+# Development files
+.env.local
+.env.*.local
