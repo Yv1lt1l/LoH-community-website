@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/stylesheet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../stylesheet.css" />
+    <title>characters</title>
+    <script src="../scripts.js" defer></script>
+  </head>
+
+  <body>
+    <header>
+      <a href="../index.html">
+        <img
+          src="../images/Logos/LOH_BI_2LINE_BG_LIGHT.jpg"
+          width="125px"
+          height="auto"
+          alt=""
+      /></a>
+      <h1>Characters Page</h1>
+    </header>
+
+    <main>
+      <section class="filter-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search Characters..."
+        />
+        <button id="scrollTopBtn">&uarr;</button>
+        <button data-filter="all">All</button>
+        <button id="resetFilters">Reset Filters</button>
+        <button data-filter="fire">Fire</button>
+        <button data-filter="water">Water</button>
+        <button data-filter="earth">Earth</button>
+        <button data-filter="light">Light</button>
+        <button data-filter="dark">Dark</button>
+        <button data-filter="striker">Striker</button>
+        <button data-filter="warrior">Warrior</button>
+        <button data-filter="guardian">Guardian</button>
+        <button data-filter="cleric">Cleric</button>
+        <button data-filter="commander">Commander</button>
+        <button data-filter="sniper">Sniper</button>
+      </section>
+      <section id="characterGrid" class="cards"></section>
+    </main>
+  </body>
+</html>
