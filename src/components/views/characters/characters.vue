@@ -38,8 +38,15 @@
         >
           {{ capitalizeFirstLetter(classType) }}
         </button>
-      </section>
-
+        <h2>Filter by Effects</h2>
+        <div class="effect-filters">
+          <label v-for="effect in allEffects" :key="effect">
+            <input type="checkbox" :value="effect" v-model="selectedEffects" />
+            {{ effect }}
+          </label>
+          </div>
+        </section>
+      
       <section class="cards">
         <div 
           v-for="character in filteredCharacters" 
@@ -67,6 +74,9 @@ import { ref, computed, onMounted } from 'vue'
 export default {
   name: 'CharactersView',
   setup() {
+    const selectedEffects = ref([])
+    const allEffects = ref(['burn', 'taunt', 'buff block', 'life steal']) // list all possible effects
+
     // Character data
     const characterList = ref([
       {
@@ -75,7 +85,8 @@ export default {
         element: "water",
         class: "sniper",
         image: "water-Lai.jpg",
-        profile: "/character/WLairei"
+        profile: "/character/WLairei",
+        effects: ["burn", "taunt"],
       },
       {
         id: 2,
@@ -83,7 +94,8 @@ export default {
         element: "earth",
         class: "striker",
         image: "earth-icateztol.jpg",
-        profile: "/character/EIcateztol"
+        profile: "/character/EIcateztol",
+        effects: ["buff block", "life steal"]
       }
       // Add more characters here...
     ])
@@ -94,6 +106,7 @@ export default {
     const showScrollBtn = ref(false)
     const elements = ref(['fire', 'water', 'earth', 'light', 'dark'])
     const classTypes = ref(['striker', 'warrior', 'guardian', 'cleric', 'commander', 'sniper'])
+    const effects = ref(['buff block', 'burn', 'taunt', 'life steal']) 
 
     // Computed filtered list
     const filteredCharacters = computed(() => {
@@ -111,7 +124,13 @@ export default {
           character.element.toLowerCase() === filter || 
           character.class.toLowerCase() === filter
 
-        return matchesSearch && matchesFilter
+
+          const matchesEffects = selectedEffects.value.length === 0 || 
+      selectedEffects.value.every(effect =>
+        character.effects.includes(effect)
+      )
+
+        return matchesSearch && matchesFilter && matchesEffects
       })
     })
 
@@ -123,6 +142,7 @@ export default {
     const resetFilters = () => {
       activeFilter.value = 'all'
       searchQuery.value = ''
+      selectedEffects.value = []
     }
 
     const scrollToTop = () => {
@@ -130,7 +150,7 @@ export default {
     }
 
     const getImagePath = (imageName) => {
-       return `src/assets/images/character-images/${imageName}`
+       return new URL(`@/assets/images/character-images/${imageName}`, import.meta.url).href
     }
 
     const capitalizeFirstLetter = (string) => {
@@ -151,11 +171,14 @@ export default {
       elements,
       classTypes,
       filteredCharacters,
+      selectedEffects,
+      allEffects,
       setFilter,
       resetFilters,
       scrollToTop,
       getImagePath,
       capitalizeFirstLetter
+
     }
   }
 }
