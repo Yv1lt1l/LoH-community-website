@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/stylesheet.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,27 +28,78 @@
 
     <main>
       <section class="filter-bar">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search Characters..."
-        />
-        <button id="scrollTopBtn">&uarr;</button>
-        <button data-filter="all">All</button>
-        <button id="resetFilters">Reset Filters</button>
-        <button data-filter="fire">Fire</button>
-        <button data-filter="water">Water</button>
-        <button data-filter="earth">Earth</button>
-        <button data-filter="light">Light</button>
-        <button data-filter="dark">Dark</button>
-        <button data-filter="striker">Striker</button>
-        <button data-filter="warrior">Warrior</button>
-        <button data-filter="guardian">Guardian</button>
-        <button data-filter="cleric">Cleric</button>
-        <button data-filter="commander">Commander</button>
-        <button data-filter="sniper">Sniper</button>
+        <div class="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search Characters..."
+          />
+        </div>
+
+        <div class="filter-container">
+          <div class="filter-group">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select">
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+              <option value="element">Element</option>
+              <option value="class">Class</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <fieldset>
+              <legend>Elements:</legend>
+              <div class="filter-buttons">
+                <button data-filter="all" class="active">All</button>
+                <button data-filter="fire" class="element-filter">Fire</button>
+                <button data-filter="water" class="element-filter">
+                  Water
+                </button>
+                <button data-filter="earth" class="element-filter">
+                  Earth
+                </button>
+                <button data-filter="light" class="element-filter">
+                  Light
+                </button>
+                <button data-filter="dark" class="element-filter">Dark</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="filter-group">
+            <fieldset>
+              <legend>Class:</legend>
+              <div class="filter-buttons">
+                <button data-filter="striker">Striker</button>
+                <button data-filter="warrior">Warrior</button>
+                <button data-filter="guardian">Guardian</button>
+                <button data-filter="cleric">Cleric</button>
+                <button data-filter="commander">Commander</button>
+                <button data-filter="sniper">Sniper</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="filter-group">
+            <fieldset>
+              <legend>Effects:</legend>
+              <div class="filter-buttons">
+                <button data-filter="burn">Burn</button>
+                <button data-filter="freeze">Freeze</button>
+                <button data-filter="poison">Poison</button>
+                <button data-filter="stun">Stun</button>
+                <button data-filter="bleed">Bleed</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <button id="resetFilters">Reset Filters</button>
+        </div>
       </section>
       <section id="characterGrid" class="cards"></section>
+
+      <button id="scrollTopBtn">&uarr;</button>
     </main>
   </body>
 </html>
