@@ -16,6 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
       image: "../images/character-images/earth-icateztol.jpg",
       profile: "characters/WLairei.html",
     },
+    {
+      name: "Dark Alev",
+      element: "Dark",
+      class: "Guardian",
+      effects: ["stun"],
+      image: "../images/character-images/dark-Alev.jpg",
+      profile: "characters/WLairei.html",
+    },
+    {
+      name: "Light Ahilam",
+      element: "Light",
+      class: "Warrior",
+      effects: [""],
+      image: "../images/character-images/light-ahilam.jpg",
+      profile: "characters/WLairei.html",
+    },
+    {
+      name: "Fire Vanessa",
+      element: "Fire",
+      class: "Cleric",
+      effects: [""],
+      image: "../images/character-images/fire-vanessa.jpg",
+      profile: "characters/WLairei.html",
+    },
+
     // add more characters here...
   ];
 
