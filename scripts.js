@@ -1,3 +1,6 @@
+const isCharacterDetailPage =
+  document.querySelector(".character-detail") !== null;
+
 document.addEventListener("DOMContentLoaded", () => {
   const characters = [
     {
@@ -5,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element: "Water",
       class: "Sniper",
       effects: ["freeze"],
-      image: "../images/character-images/water-Lai.jpg",
+      image: "../images/character-images/icons/water-Lai.jpg",
       profile: "characters/WLairei.html",
     },
     {
@@ -13,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element: "Earth",
       class: "Striker",
       effects: ["poison"],
-      image: "../images/character-images/earth-icateztol.jpg",
+      image: "../images/character-images/icons/earth-icateztol.jpg",
       profile: "characters/WLairei.html",
     },
     {
@@ -21,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element: "Dark",
       class: "Guardian",
       effects: ["stun"],
-      image: "../images/character-images/dark-Alev.jpg",
+      image: "../images/character-images/icons/dark-Alev.jpg",
       profile: "characters/WLairei.html",
     },
     {
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element: "Light",
       class: "Warrior",
       effects: [""],
-      image: "../images/character-images/light-ahilam.jpg",
+      image: "../images/character-images/icons/light-ahilam.jpg",
       profile: "characters/WLairei.html",
     },
     {
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element: "Fire",
       class: "Cleric",
       effects: [""],
-      image: "../images/character-images/fire-vanessa.jpg",
+      image: "../images/character-images/icons/fire-vanessa.jpg",
       profile: "characters/WLairei.html",
     },
 
