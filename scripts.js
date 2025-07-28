@@ -2,16 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const characters = [
     {
       name: "Water Lairei",
-      element: "water",
-      class: "sniper",
+      element: "Water",
+      class: "Sniper",
       effects: ["freeze"],
       image: "../images/character-images/water-Lai.jpg",
       profile: "characters/WLairei.html",
     },
     {
       name: "Earth Icateztol",
-      element: "earth",
-      class: "striker",
+      element: "Earth",
+      class: "Striker",
       effects: ["poison"],
       image: "../images/character-images/earth-icateztol.jpg",
       profile: "characters/WLairei.html",
@@ -61,6 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
     class: null,
     effect: null,
   };
+
+  function initializeFilters() {
+    //set "All" buttons as active by default
+    document.querySelectorAll('[data-filter="all"]').forEach((btn) => {
+      if (!btn.classList.contains("active")) {
+        btn.classList.add("active");
+      }
+    });
+
+    //clear any active states
+    document
+      .querySelectorAll('.filter-buttons button:not([data-filter="all"])')
+      .forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+    //reset active filters
+    activeFilters = {
+      element: null,
+      class: null,
+      effect: null,
+    };
+
+    filterCards();
+  }
+
+  initializeFilters();
 
   // live search
   if (searchInput) {
