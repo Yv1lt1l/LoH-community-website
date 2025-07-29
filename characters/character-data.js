@@ -5,8 +5,7 @@ const characters = {
     class: "sniper",
     stats: { atk: 1420, def: 980 },
     image: {
-      icon: "../../images/character-images/icons/water-Lai.jpg",
-      full: "../../images/character-images/full/",
+      icon: "images/character-images/icons/water-Lai.jpg",
     },
     skills: [
       {

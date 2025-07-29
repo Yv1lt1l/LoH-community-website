@@ -5,47 +5,106 @@ document.addEventListener("DOMContentLoaded", () => {
   const characters = [
     {
       name: "Water Lairei",
+      id: "water_lairei",
       element: "Water",
       class: "Sniper",
       effects: ["freeze"],
-      image: "../images/character-images/icons/water-Lai.jpg",
-      profile: "characters/WLairei.html",
+      image: "../images/character-images/water-Lai.jpg",
+      stats: { atk: 1420, def: 980 },
+      skills: [
+        {
+          name: "Frost Arrow",
+          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+        },
+      ],
+      profile: "characters/water_lairei.html",
     },
     {
       name: "Earth Icateztol",
+      id: "earth_icateztol",
       element: "Earth",
       class: "Striker",
       effects: ["poison"],
-      image: "../images/character-images/icons/earth-icateztol.jpg",
-      profile: "characters/WLairei.html",
+      image: "../images/character-images/earth-icateztol.jpg",
+      stats: { atk: 1420, def: 980 },
+      skills: [
+        {
+          name: "Frost Arrow",
+          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+        },
+      ],
+      profile: "characters/.html",
     },
     {
       name: "Dark Alev",
+      id: "dark_alev",
       element: "Dark",
       class: "Guardian",
       effects: ["stun"],
-      image: "../images/character-images/icons/dark-Alev.jpg",
+      image: "../images/character-images/dark-Alev.jpg",
+      stats: { atk: 1420, def: 980 },
+      skills: [
+        {
+          name: "Frost Arrow",
+          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+        },
+      ],
       profile: "characters/WLairei.html",
     },
     {
       name: "Light Ahilam",
+      id: "light_ahilam",
       element: "Light",
       class: "Warrior",
-      effects: [""],
-      image: "../images/character-images/icons/light-ahilam.jpg",
+      effects: ["none"],
+      image: "../images/character-images/light-ahilam.jpg",
+      stats: { atk: 1420, def: 980 },
+      skills: [
+        {
+          name: "Frost Arrow",
+          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+        },
+      ],
       profile: "characters/WLairei.html",
     },
     {
       name: "Fire Vanessa",
+      id: "fire_vanessa",
       element: "Fire",
       class: "Cleric",
-      effects: [""],
-      image: "../images/character-images/icons/fire-vanessa.jpg",
+      effects: ["none"],
+      image: "../images/character-images/fire-vanessa.jpg",
+      stats: { atk: 1420, def: 980 },
+      skills: [
+        {
+          name: "Frost Arrow",
+          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+        },
+      ],
       profile: "characters/WLairei.html",
     },
 
     // add more characters here...
   ];
+
+  if (isCharacterDetailPage) {
+    // Get character ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const characterId = urlParams.get("character");
+
+    // Find matching character
+    const character = characters.find((c) => c.id === characterId);
+
+    if (character) {
+      renderCharacterDetail(character);
+    } else {
+      document.getElementById("character-root").innerHTML = `
+      <div class="error">
+        Character not found. <a href="characters.html">Return to list</a>
+      </div>
+    `;
+    }
+  }
 
   const searchInput = document.getElementById("searchInput");
   const filterButtons = document.querySelectorAll(".filter-buttons button");
@@ -61,24 +120,29 @@ document.addEventListener("DOMContentLoaded", () => {
   characters.forEach((char) => {
     const card = document.createElement("article");
     card.className = "card";
-    card.dataset.element = normalize(char.element);
-    card.dataset.class = normalize(char.class);
-    card.dataset.effects = char.effects.map((e) => normalize(e)).join(" ");
-    card.dataset.name = normalize(char.name);
+
+    card.dataset.name = char.name.toLowerCase();
+    card.dataset.element = char.element.toLowerCase();
+    card.dataset.class = char.class.toLowerCase();
+    card.dataset.effects = char.effects.join(" ").toLowerCase();
 
     card.innerHTML = `
     <img src="${char.image}" alt="${char.name}">
     <div class="card-content">
-    <h2>${char.name}</h2>
-    <p class="element ${char.element}">${char.element}</p>
-    <p class="class"> ${char.class}</p>
-    <div class="effects">${char.effects
-      .map((e) => `<span class="effect-tag">${e}</span>`)
-      .join("")}</div>
-    <a href="${char.profile}" class="profile-btn">View Profile</a>
+      <h2>${char.name}</h2>
+      <p class="element ${char.element.toLowerCase()}">${char.element}</p>
+      <p class="class">${char.class}</p>
+      <div class="effects">
+        ${char.effects
+          .filter((e) => e)
+          .map((e) => `<span class="effect-tag">${e}</span>`)
+          .join("")}
+      </div>
+      <a href="character-detail.html?character=${
+        char.id
+      }" class="profile-btn">View Profile</a>
     </div>
-    `;
-
+  `;
     container.appendChild(card);
   });
 
@@ -117,6 +181,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initializeFilters();
 
+  function renderCharacterDetail(character) {
+    const container = document.getElementById("character-root");
+
+    const charImage =
+      typeof character.image === "string"
+        ? character.image
+        : character.image.icon || "../images/default.jpg";
+    const charStats = character.stats || { atk: "N/A", def: "N/A" };
+    const charSkills = character.skills || [];
+
+    container.innerHTML = `
+    <section class="character-header">
+      <img src="${charImage}" 
+           alt="${character.name}" 
+           class="character-art">
+      
+      <div class="character-meta">
+        <h1>${character.name}</h1>
+        <div class="meta-tags">
+          <span class="element ${character.element}">${character.element}</span>
+          <span class="class">${character.class}</span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="character-stats">
+      <h2>Stats</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="stat-label">ATK</span>
+          <span class="stat-value">${charStats.atk}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">DEF</span>
+          <span class="stat-value">${charStats.DEF}</span>
+        </div>
+        <!-- Add other stats -->
+      </div>
+    </section>
+    
+    <section class="character-skills">
+      <h2>Skills</h2>
+      ${charSkills
+        .map(
+          (skill) => `
+        <div class="skill">
+          <h3>${skill.name}</h3>
+          <p>${skill.effect}</p>
+        </div>
+      `
+        )
+        .join("")}
+    </section>
+    
+    <a href="characters.html" class="back-button">
+      ← Back to Characters
+    </a>
+  `;
+  }
   // live search
   if (searchInput) {
     let searchTimeout;
@@ -246,12 +369,11 @@ document.addEventListener("DOMContentLoaded", () => {
   //Main filtering function
   function filterCards() {
     const searchQuery = searchInput ? normalize(searchInput.value) : "";
-
     cards.forEach((card) => {
       const name = card.dataset.name;
       const element = card.dataset.element;
       const charClass = card.dataset.class;
-      const effects = card.dataset.effects;
+      const effects = card.dataset.effects || "";
 
       //check search query
 
@@ -265,11 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
       //check filters
       const elementMatch =
         !activeFilters.element || element === activeFilters.element;
+
       const classMatch =
         !activeFilters.class || charClass === activeFilters.class;
+
       const effectMatch =
-        !activeFilters.effect ||
-        effects.split(" ").includes(activeFilters.effect);
+        !activeFilters.effect || effects.includes(activeFilters.effect);
 
       card.style.display =
         searchMatch && elementMatch && classMatch && effectMatch
@@ -277,7 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
           : "none";
     });
 
-    sortCards();
+    if (!isCharacterDetailPage && container) {
+      sortCards();
+    }
   }
 
   //sorting function
@@ -287,17 +412,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardsArray = Array.from(
       document.querySelectorAll(".card[style*='block']")
     );
-
+    if (!container || isCharacterDetailPage) return;
     cardsArray.sort((a, b) => {
+      const aValue = a.dataset[sortValue.split("-")[0]] || "";
+      const bValue = b.dataset[sortValue.split("-")[0]] || "";
+
       switch (sortValue) {
         case "name-asc":
-          return a.dataset.name.localeCompare(b.dataset.name);
+          return aValue.localeCompare(bValue);
         case "name-desc":
-          return b.dataset.name.localeCompare(a.dataset.name);
+          return bValue.localeCompare(aValue);
         case "element":
-          return a.dataset.element.localeCompare(b.dataset.element);
+          return aValue.localeCompare(bValue);
         case "class":
-          return a.dataset.class.localeCompare(b.dataset.class);
+          return aValue.localeCompare(bValue);
         default:
           return 0;
       }
