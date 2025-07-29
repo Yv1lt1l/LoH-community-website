@@ -2,6 +2,22 @@ const isCharacterDetailPage =
   document.querySelector(".character-detail") !== null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 1. First, get all DOM elements with null checks
+
+  const searchInput = !isCharacterDetailPage
+    ? document.getElementById("searchInput")
+    : null;
+  const sortSelect = document.getElementById("sort-select");
+  const container = document.getElementById("characterGrid");
+
+  // 2. Immediately after, add main page guard clause
+  if (!isCharacterDetailPage) {
+    if (!searchInput || !sortSelect || !container) {
+      console.log("Missing required elements on characters page");
+      return; //Exit early if on main page but missing elements
+    }
+  }
+
   const characters = [
     {
       name: "Water Lairei",
@@ -56,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "light_ahilam",
       element: "Light",
       class: "Warrior",
-      effects: ["none"],
+      effects: [],
       image: "../images/character-images/light-ahilam.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -72,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "fire_vanessa",
       element: "Fire",
       class: "Cleric",
-      effects: ["none"],
+      effects: [],
       image: "../images/character-images/fire-vanessa.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -99,55 +115,62 @@ document.addEventListener("DOMContentLoaded", () => {
       renderCharacterDetail(character);
     } else {
       document.getElementById("character-root").innerHTML = `
-      <div class="error">
-        Character not found. <a href="characters.html">Return to list</a>
+      <div class="error>
+      Character not found. <a href="characters.html">Return to list</a>
       </div>
-    `;
+      `;
+    }
+    return;
+  } else {
+    //Main pafe logic only
+    if (container) {
+      characters.forEach((char) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        // Set dataset attributes for filtering
+        card.dataset.name = char.name.toLowerCase();
+        card.dataset.element = char.element.toLowerCase();
+        card.dataset.class = char.class.toLowerCase();
+        card.dataset.effects = char.effects.join(" ").toLowerCase();
+
+        card.innerHTML = `
+            <img src="${char.image}" alt="${char.name}">
+            <div class="card-content">
+              <h2>${char.name}</h2>
+              <p class="element ${char.element.toLowerCase()}">${
+          char.element
+        }</p>
+              <p class="class">${char.class}</p>
+              <div class="effects">
+                ${char.effects
+                  .filter((e) => e && e !== "none")
+                  .map((e) => `<span class="effect-tag">${e}</span>`)
+                  .join("")}
+            </div>
+            <a href="character-detail.html?character=${
+              char.id
+            }" class="profile-btn">View Profile</a>
+          </div>
+        `;
+        try {
+          container.appendChild(card);
+        } catch (e) {
+          console.error("Failed to append card:", e);
+        }
+      });
     }
   }
 
-  const searchInput = document.getElementById("searchInput");
   const filterButtons = document.querySelectorAll(".filter-buttons button");
   const scrollBtn = document.getElementById("scrollTopBtn");
   const resetBtn = document.getElementById("resetFilters");
-  const container = document.getElementById("characterGrid");
-  const sortSelect = document.getElementById("sort-select");
-
+  const cards = container.querySelectorAll(".card");
   const normalize = (str) => str?.toLocaleLowerCase().trim() || "";
 
   // build characters from inline data
 
-  characters.forEach((char) => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    card.dataset.name = char.name.toLowerCase();
-    card.dataset.element = char.element.toLowerCase();
-    card.dataset.class = char.class.toLowerCase();
-    card.dataset.effects = char.effects.join(" ").toLowerCase();
-
-    card.innerHTML = `
-    <img src="${char.image}" alt="${char.name}">
-    <div class="card-content">
-      <h2>${char.name}</h2>
-      <p class="element ${char.element.toLowerCase()}">${char.element}</p>
-      <p class="class">${char.class}</p>
-      <div class="effects">
-        ${char.effects
-          .filter((e) => e)
-          .map((e) => `<span class="effect-tag">${e}</span>`)
-          .join("")}
-      </div>
-      <a href="character-detail.html?character=${
-        char.id
-      }" class="profile-btn">View Profile</a>
-    </div>
-  `;
-    container.appendChild(card);
-  });
-
   //after cards load, enable search/filter logic
-  const cards = document.querySelectorAll(".card");
   let activeFilters = {
     element: null,
     class: null,
@@ -248,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searchTimeout = setTimeout(() => {
         const query = normalize(searchInput.value);
         filterCards();
-      }, 300); // 300ms delay
+      });
     });
   }
 
@@ -285,6 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("Unknown filter type:", labelText);
           return;
         }
+
+        console.log(`Filter clicked: ${filterType} = ${filterValue}`);
 
         // Toggle active state
         const buttonsContainer = this.closest(".filter-buttons");
@@ -368,7 +393,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Main filtering function
   function filterCards() {
+    console.log("Active Filters:", activeFilters);
+
+    if (!container) return;
+
     const searchQuery = searchInput ? normalize(searchInput.value) : "";
+
     cards.forEach((card) => {
       const name = card.dataset.name;
       const element = card.dataset.element;
@@ -391,8 +421,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const classMatch =
         !activeFilters.class || charClass === activeFilters.class;
 
-      const effectMatch =
-        !activeFilters.effect || effects.includes(activeFilters.effect);
+      let effectMatch = true;
+      if (activeFilters.effect) {
+        if (activeFilters.effect === "none") {
+          effectMatch = effects === "" || effects === "none";
+        } else {
+          effectMatch = effects.includes(activeFilters.effect);
+        }
+      }
 
       card.style.display =
         searchMatch && elementMatch && classMatch && effectMatch
