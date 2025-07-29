@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "water_lairei",
       element: "Water",
       class: "Sniper",
-      effects: ["freeze"],
+      effects: ["Freeze"],
       image: "../images/character-images/water-Lai.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "earth_icateztol",
       element: "Earth",
       class: "Striker",
-      effects: ["poison"],
+      effects: ["Poison"],
       image: "../images/character-images/earth-icateztol.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "dark_alev",
       element: "Dark",
       class: "Guardian",
-      effects: ["stun"],
+      effects: ["Stun"],
       image: "../images/character-images/dark-Alev.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
