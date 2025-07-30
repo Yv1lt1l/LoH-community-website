@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "light_ahilam",
       element: "Light",
       class: "Warrior",
-      effects: [],
+      effects: ["none"],
       image: "../images/character-images/light-ahilam.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "fire_vanessa",
       element: "Fire",
       class: "Cleric",
-      effects: [],
+      effects: ["none"],
       image: "../images/character-images/fire-vanessa.jpg",
       stats: { atk: 1420, def: 980 },
       skills: [
@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   .filter((e) => e && e !== "none")
                   .map((e) => `<span class="effect-tag">${e}</span>`)
                   .join("")}
+                  </div>
             </div>
             <a href="character-detail.html?character=${
               char.id
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("resetFilters");
   const cards = container.querySelectorAll(".card");
   const normalize = (str) => str?.toLocaleLowerCase().trim() || "";
+  if (str === null || str === undefined) return "";
 
   // build characters from inline data
 
@@ -204,10 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCharacterDetail(character) {
     const container = document.getElementById("character-root");
 
-    const charImage =
-      typeof character.image === "string"
-        ? character.image
-        : character.image.icon || "../images/default.jpg";
+    const charImage = character.image || "../images/default.jpg";
     const charStats = character.stats || { atk: "N/A", def: "N/A" };
     const charSkills = character.skills || [];
 
@@ -243,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="stat">
           <span class="stat-label">DEF</span>
-          <span class="stat-value">${charStats.DEF}</span>
+          <span class="stat-value">${charStats.def}</span>
         </div>
         <!-- Add other stats -->
       </div>
@@ -280,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="effect-pane active" id="buffs-pane">
           ${renderEffects(character.skills, "buff")}
         </div>
-        <div class="effects-pane" id="debuffs-pane">
+        <div class="effect-pane" id="debuffs-pane">
           ${renderEffects(character.skills, "debuff")}
         </div>
       </div>
