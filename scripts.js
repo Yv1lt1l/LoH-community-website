@@ -165,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("resetFilters");
   const cards = container.querySelectorAll(".card");
   const normalize = (str) => str?.toLocaleLowerCase().trim() || "";
-  if (str === null || str === undefined) return "";
 
   // build characters from inline data
 
