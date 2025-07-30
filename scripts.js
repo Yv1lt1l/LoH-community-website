@@ -41,6 +41,9 @@ const dom = {
 // Main Initialization
 async function init() {
   showLoading(true);
+
+  state.sort = "name-asc";
+  if (dom.sortSelect) dom.sortSelect.value = "name-asc";
   await loadCharacters();
 
   if (isCharacterDetailPage) {
@@ -71,7 +74,10 @@ async function loadCharacters() {
       skills: char.skills || [],
       stats: char.stats || { atk: 0, def: 0 },
     }));
+
     state.filteredCharacters = [...state.characters];
+    state.sort = "name-asc";
+    sortCards();
   } catch (error) {
     console.error("Failed to load characters:", error);
     state.characters = [];
@@ -282,11 +288,14 @@ function filterCards() {
 }
 
 function sortCards() {
+  console.log("Current sort:", state.sort);
   const sortValue = state.sort;
 
   state.filteredCharacters.sort((a, b) => {
-    const aValue = a[sortValue.split("-")[0]].toLowerCase();
-    const bValue = b[sortValue.split("-")[0]].toLowerCase();
+    const sortKey = sortValue.split("-")[0];
+    console.log(`Sorting by ${sortKey}`);
+    const aValue = (a[sortKey] || "").toString().toLowerCase();
+    const bValue = (b[sortKey] || "").toString().toLowerCase();
 
     switch (sortValue) {
       case "name-asc":
@@ -370,7 +379,7 @@ function setupEventListeners() {
       searchTimeout = setTimeout(() => {
         state.filters.search = dom.searchInput.value;
         filterCards();
-      }, 300);
+      });
     });
   }
 
