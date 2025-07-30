@@ -1,234 +1,192 @@
 const isCharacterDetailPage =
   document.querySelector(".character-detail") !== null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. First, get all DOM elements with null checks
+// Config
+const CONFIG = {
+  defaultImage: "../images/default.jpg",
+  defaultProfile: "characters.html",
+  itemsPerPage: 12,
+};
 
-  const searchInput = !isCharacterDetailPage
-    ? document.getElementById("searchInput")
-    : null;
-  const sortSelect = document.getElementById("sort-select");
-  const container = document.getElementById("characterGrid");
-
-  // 2. Immediately after, add main page guard clause
-  if (!isCharacterDetailPage) {
-    if (!searchInput || !sortSelect || !container) {
-      console.log("Missing required elements on characters page");
-      return; //Exit early if on main page but missing elements
-    }
-  }
-
-  const characters = [
-    {
-      name: "Water Lairei",
-      id: "water_lairei",
-      element: "Water",
-      class: "Sniper",
-      effects: ["Freeze"],
-      image: "../images/character-images/water-Lai.jpg",
-      stats: { atk: 1420, def: 980 },
-      skills: [
-        {
-          name: "Frost Arrow",
-          effect: "Deals 180% ATK damage with 50% chance to Freeze",
-          type: "debuff",
-        },
-      ],
-      profile: "characters/water_lairei.html",
-    },
-    {
-      name: "Earth Icateztol",
-      id: "earth_icateztol",
-      element: "Earth",
-      class: "Striker",
-      effects: ["Poison"],
-      image: "../images/character-images/earth-icateztol.jpg",
-      stats: { atk: 1420, def: 980 },
-      skills: [
-        {
-          name: "Frost Arrow",
-          effect: "Heals 20% HP",
-          type: "buff",
-        },
-      ],
-      profile: "characters/.html",
-    },
-    {
-      name: "Dark Alev",
-      id: "dark_alev",
-      element: "Dark",
-      class: "Guardian",
-      effects: ["Stun"],
-      image: "../images/character-images/dark-Alev.jpg",
-      stats: { atk: 1420, def: 980 },
-      skills: [],
-      profile: "characters/WLairei.html",
-    },
-    {
-      name: "Light Ahilam",
-      id: "light_ahilam",
-      element: "Light",
-      class: "Warrior",
-      effects: ["none"],
-      image: "../images/character-images/light-ahilam.jpg",
-      stats: { atk: 1420, def: 980 },
-      skills: [
-        {
-          name: "Frost Arrow",
-          effect: "Deals 180% ATK damage with 50% chance to Freeze",
-        },
-      ],
-      profile: "characters/WLairei.html",
-    },
-    {
-      name: "Fire Vanessa",
-      id: "fire_vanessa",
-      element: "Fire",
-      class: "Cleric",
-      effects: ["none"],
-      image: "../images/character-images/fire-vanessa.jpg",
-      stats: { atk: 1420, def: 980 },
-      skills: [
-        {
-          name: "Frost Arrow",
-          effect: "Deals 180% ATK damage with 50% chance to Freeze",
-        },
-      ],
-      profile: "characters/WLairei.html",
-    },
-
-    // add more characters here...
-  ];
-
-  if (isCharacterDetailPage) {
-    // Get character ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const characterId = urlParams.get("character");
-
-    // Find matching character
-    const character = characters.find((c) => c.id === characterId);
-
-    if (character) {
-      renderCharacterDetail(character);
-    } else {
-      document.getElementById("character-root").innerHTML = `
-      <div class="error>
-      Character not found. <a href="characters.html">Return to list</a>
-      </div>
-      `;
-    }
-    return;
-  } else {
-    //Main pafe logic only
-    if (container) {
-      characters.forEach((char) => {
-        const card = document.createElement("article");
-        card.className = "card";
-
-        // Set dataset attributes for filtering
-        card.dataset.name = char.name.toLowerCase();
-        card.dataset.element = char.element.toLowerCase();
-        card.dataset.class = char.class.toLowerCase();
-        card.dataset.effects = char.effects.join(" ").toLowerCase();
-
-        card.innerHTML = `
-            <img src="${char.image}" alt="${char.name}">
-            <div class="card-content">
-              <h2>${char.name}</h2>
-              <p class="element ${char.element.toLowerCase()}">${
-          char.element
-        }</p>
-              <p class="class">${char.class}</p>
-              <div class="effects">
-                ${char.effects
-                  .filter((e) => e && e !== "none")
-                  .map((e) => `<span class="effect-tag">${e}</span>`)
-                  .join("")}
-                  </div>
-            </div>
-            <a href="character-detail.html?character=${
-              char.id
-            }" class="profile-btn">View Profile</a>
-          </div>
-        `;
-        try {
-          container.appendChild(card);
-        } catch (e) {
-          console.error("Failed to append card:", e);
-        }
-      });
-    }
-  }
-
-  const filterButtons = document.querySelectorAll(".filter-buttons button");
-  const scrollBtn = document.getElementById("scrollTopBtn");
-  const resetBtn = document.getElementById("resetFilters");
-  const cards = container.querySelectorAll(".card");
-  const normalize = (str) => str?.toLocaleLowerCase().trim() || "";
-
-  // build characters from inline data
-
-  //after cards load, enable search/filter logic
-  let activeFilters = {
+// State
+let state = {
+  characters: [],
+  filteredCharacters: [],
+  filters: {
+    search: "",
     element: null,
     class: null,
     effect: null,
-  };
+  },
+  sort: "name-asc",
+  currentPage: 1,
+};
 
-  function initializeFilters() {
-    //set "All" buttons as active by default
-    document.querySelectorAll('[data-filter="all"]').forEach((btn) => {
-      if (!btn.classList.contains("active")) {
-        btn.classList.add("active");
-      }
-    });
+// DOM Elements
+const dom = {
+  container: document.getElementById("characterGrid"),
+  searchInput: !isCharacterDetailPage
+    ? document.getElementById("searchInput")
+    : null,
+  sortSelect: document.getElementById("sort-select"),
+  filterButtons: document.querySelectorAll(".filter-buttons button"),
+  scrollBtn: document.getElementById("scrollTopBtn"),
+  resetBtn: document.getElementById("resetFilters"),
+  paginationContainer: !isCharacterDetailPage
+    ? document.getElementById("pagination")
+    : null,
+  loadingIndicator: document.getElementById("loading-indicator"),
+};
 
-    //clear any active states
+// Main Initialization
+async function init() {
+  showLoading(true);
+  await loadCharacters();
+
+  if (isCharacterDetailPage) {
+    renderCharacterDetailPage();
+  } else {
+    if (!dom.container) {
+      console.error("Character grid container not found");
+      return;
+    }
+    initializeFilters();
+    renderCharacterGrid();
+    setupEventListeners();
+    renderPagination();
+  }
+  showLoading(false);
+}
+
+// Data Loading
+async function loadCharacters() {
+  try {
+    const response = await fetch("/characters/details/characters.json");
+    const data = await response.json();
+    state.characters = data.characters.map((char) => ({
+      ...char,
+      image: char.image || CONFIG.defaultImage,
+      profile: char.profile || CONFIG.defaultProfile,
+      effects: char.effects || [],
+      skills: char.skills || [],
+      stats: char.stats || { atk: 0, def: 0 },
+    }));
+    state.filteredCharacters = [...state.characters];
+  } catch (error) {
+    console.error("Failed to load characters:", error);
+    state.characters = [];
+    state.filteredCharacters = [];
+
+    if (dom.container) {
+      dom.container.innerHTML = `
+        <div class="error">
+          Failed to load characters. Please try again later.
+        </div>
+      `;
+    }
+  }
+}
+
+// Rendering
+function renderCharacterGrid() {
+  if (!dom.container) return;
+
+  const start = (state.currentPage - 1) * CONFIG.itemsPerPage;
+  const end = start + CONFIG.itemsPerPage;
+  const paginatedChars = state.filteredCharacters.slice(start, end);
+
+  if (paginatedChars.length === 0) {
+    dom.container.innerHTML = `
+      <div class="no-results">
+        No characters found matching your filters.
+        <button id="reset-filters-btn">Reset Filters</button>
+      </div>
+    `;
     document
-      .querySelectorAll('.filter-buttons button:not([data-filter="all"])')
-      .forEach((btn) => {
-        btn.classList.remove("active");
-      });
-
-    //reset active filters
-    activeFilters = {
-      element: null,
-      class: null,
-      effect: null,
-    };
-
-    filterCards();
+      .getElementById("reset-filters-btn")
+      ?.addEventListener("click", resetFilters);
+    return;
   }
 
-  initializeFilters();
+  dom.container.innerHTML = "";
 
-  function renderCharacterDetail(character) {
-    const container = document.getElementById("character-root");
+  paginatedChars.forEach((char) => {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.dataset.name = char.name.toLowerCase();
+    card.dataset.element = char.element.toLowerCase();
+    card.dataset.class = char.class.toLowerCase();
+    card.dataset.effects = char.effects.join(" ").toLowerCase();
 
-    const charImage = character.image || "../images/default.jpg";
-    const charStats = character.stats || { atk: "N/A", def: "N/A" };
-    const charSkills = character.skills || [];
+    card.innerHTML = `
+      <img data-src="${char.image}" alt="${char.name}" class="lazyload">
+      <div class="card-content">
+        <h2>${char.name}</h2>
+        <p class="element ${char.element.toLowerCase()}">${char.element}</p>
+        <p class="class">${char.class}</p>
+        <div class="effects">
+          ${char.effects
+            .filter((e) => e && e !== "none")
+            .map((e) => `<span class="effect-tag">${e}</span>`)
+            .join("")}
+        </div>
+        <a href="character-detail.html?character=${
+          char.id
+        }" class="profile-btn">View Profile</a>
+      </div>
+    `;
+    dom.container.appendChild(card);
+  });
 
+  initLazyLoad();
+  renderPagination();
+}
+
+function renderCharacterDetailPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const characterId = urlParams.get("character");
+  const character = state.characters.find((c) => c.id === characterId);
+
+  const container = document.getElementById("character-root");
+  if (!container) return;
+
+  if (!character) {
     container.innerHTML = `
+      <div class="error">
+        Character not found. <a href="characters.html">Return to list</a>
+      </div>
+    `;
+    return;
+  }
+
+  renderCharacterDetail(character);
+}
+
+function renderCharacterDetail(character) {
+  const container = document.getElementById("character-root");
+  if (!container) return;
+
+  container.innerHTML = `
     <section class="character-header">
-      <img src="${charImage}" 
-           alt="${character.name}" 
-           class="character-art">
+      <img src="${character.image}" alt="${
+    character.name
+  }" class="character-art">
       
       <div class="character-meta">
         <h1>${character.name}</h1>
         <div class="meta-tags">
-          <span class="element ${character.element}">${character.element}</span>
+          <span class="element ${character.element.toLowerCase()}">${
+    character.element
+  }</span>
           <span class="class">${character.class}</span>
+        </div>
 
-          <!-- Linked Elementa Section -->
-          <div class="linked-elements">
+        <div class="linked-elements">
           <p class="see-other">See other ${character.element}:</p>
           <div class="element-icons">
-          ${getLinkedElements(character.element, character.id)}
+            ${getLinkedElements(character.element, character.id)}
           </div>
         </div>
-      </div>
       </div>
     </section>
     
@@ -237,19 +195,18 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="stat-grid">
         <div class="stat">
           <span class="stat-label">ATK</span>
-          <span class="stat-value">${charStats.atk}</span>
+          <span class="stat-value">${character.stats.atk}</span>
         </div>
         <div class="stat">
           <span class="stat-label">DEF</span>
-          <span class="stat-value">${charStats.def}</span>
+          <span class="stat-value">${character.stats.def}</span>
         </div>
-        <!-- Add other stats -->
       </div>
     </section>
       
     <section class="character-skills">
       <h2>Skills</h2>
-      ${charSkills
+      ${character.skills
         .map(
           (skill) => `
         <div class="skill">
@@ -261,14 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .join("")}
     </section>
 
-    <!-- New Effects Tab System -->
     <section class="character-effects">
       <div class="effect-tabs">
-        <button class="effect-tab active" data-tab="buffs">Buffs (${countSkills(
+        <button class="effect-tab active" data-tab="buffs">Buffs (${countSkillsByType(
           character.skills,
           "buff"
         )})</button>
-        <button class="effect-tab" data-tab="debuffs">Debuffs (${countSkills(
+        <button class="effect-tab" data-tab="debuffs">Debuffs (${countSkillsByType(
           character.skills,
           "debuff"
         )})</button>
@@ -276,10 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div class="effect-content">
         <div class="effect-pane active" id="buffs-pane">
-          ${renderEffects(character.skills, "buff")}
+          ${renderSkillsByType(character.skills, "buff")}
         </div>
         <div class="effect-pane" id="debuffs-pane">
-          ${renderEffects(character.skills, "debuff")}
+          ${renderSkillsByType(character.skills, "debuff")}
         </div>
       </div>
     </section>
@@ -289,281 +245,316 @@ document.addEventListener("DOMContentLoaded", () => {
     </a>
   `;
 
-    // Activate the tab system
-    setupTabs();
+  setupTabs();
+}
+
+// Filtering, Sorting and Pagination
+function filterCards() {
+  const { search, element, class: charClass, effect } = state.filters;
+  const normalizedSearch = normalize(search);
+
+  state.filteredCharacters = state.characters.filter((char) => {
+    const name = char.name.toLowerCase();
+    const charElement = char.element.toLowerCase();
+    const charClassLower = char.class.toLowerCase();
+    const effects = char.effects.join(" ").toLowerCase();
+
+    const matchesSearch =
+      !normalizedSearch ||
+      name.includes(normalizedSearch) ||
+      charElement.includes(normalizedSearch) ||
+      charClassLower.includes(normalizedSearch) ||
+      effects.includes(normalizedSearch);
+
+    const matchesElement = !element || charElement === element;
+    const matchesClass = !charClass || charClassLower === charClass;
+    const matchesEffect =
+      !effect ||
+      (effect === "none"
+        ? char.effects.length === 0
+        : char.effects.map((e) => e.toLowerCase()).includes(effect));
+
+    return matchesSearch && matchesElement && matchesClass && matchesEffect;
+  });
+
+  state.currentPage = 1; // Reset to first page when filters change
+  renderCharacterGrid();
+}
+
+function sortCards() {
+  const sortValue = state.sort;
+
+  state.filteredCharacters.sort((a, b) => {
+    const aValue = a[sortValue.split("-")[0]].toLowerCase();
+    const bValue = b[sortValue.split("-")[0]].toLowerCase();
+
+    switch (sortValue) {
+      case "name-asc":
+        return aValue.localeCompare(bValue);
+      case "name-desc":
+        return bValue.localeCompare(aValue);
+      case "element":
+        return aValue.localeCompare(bValue);
+      case "class":
+        return aValue.localeCompare(bValue);
+      default:
+        return 0;
+    }
+  });
+
+  renderCharacterGrid();
+}
+
+function renderPagination() {
+  if (!dom.paginationContainer) return;
+
+  const totalPages = Math.ceil(
+    state.filteredCharacters.length / CONFIG.itemsPerPage
+  );
+  if (totalPages <= 1) {
+    dom.paginationContainer.innerHTML = "";
+    return;
   }
 
-  // live search
-  if (searchInput) {
+  let paginationHTML = `<div class="pagination">`;
+
+  // Previous button
+  paginationHTML += `
+    <button class="page-btn ${state.currentPage === 1 ? "disabled" : ""}" 
+            data-page="${state.currentPage - 1}">
+      &laquo; Prev
+    </button>
+  `;
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    paginationHTML += `
+      <button class="page-btn ${i === state.currentPage ? "active" : ""}" 
+              data-page="${i}">
+        ${i}
+      </button>
+    `;
+  }
+
+  // Next button
+  paginationHTML += `
+    <button class="page-btn ${
+      state.currentPage === totalPages ? "disabled" : ""
+    }" 
+            data-page="${state.currentPage + 1}">
+      Next &raquo;
+    </button>
+  `;
+
+  paginationHTML += `</div>`;
+  dom.paginationContainer.innerHTML = paginationHTML;
+
+  // Add event listeners
+  document.querySelectorAll(".page-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("disabled")) return;
+      state.currentPage = parseInt(btn.dataset.page);
+      renderCharacterGrid();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+}
+
+// Event Handlers
+function setupEventListeners() {
+  // Search input
+  if (dom.searchInput) {
     let searchTimeout;
-    searchInput.addEventListener("input", () => {
+    dom.searchInput.addEventListener("input", () => {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
-        const query = normalize(searchInput.value);
+        state.filters.search = dom.searchInput.value;
         filterCards();
-      });
+      }, 300);
     });
   }
 
-  // filter buttons by element
-  filterButtons.forEach((btn) => {
+  // Filter buttons
+  dom.filterButtons.forEach((btn) => {
     btn.addEventListener("click", function () {
-      try {
-        const filterValue = this.dataset.filter;
-        const filterGroup = this.closest(".filter-group");
+      const filterValue = this.dataset.filter;
+      const filterGroup = this.closest(".filter-group");
+      if (!filterGroup) return;
 
-        if (!filterGroup) return;
+      const label = filterGroup.querySelector("label, legend");
+      if (!label) return;
 
-        // Try to find either a label or legend
-        const label = filterGroup.querySelector("label, legend");
-        if (!label) {
-          console.error(
-            "No label or legend found in filter group:",
-            filterGroup
-          );
-          return;
-        }
+      const labelText = label.textContent.toLowerCase();
+      let filterType;
 
-        // Determine filter type based on label/legend text
-        let filterType;
-        const labelText = label.textContent.toLowerCase();
+      if (labelText.includes("element")) filterType = "element";
+      else if (labelText.includes("class")) filterType = "class";
+      else if (labelText.includes("effect")) filterType = "effect";
+      else return;
 
-        if (labelText.includes("element")) {
-          filterType = "element";
-        } else if (labelText.includes("class")) {
-          filterType = "class";
-        } else if (labelText.includes("effect")) {
-          filterType = "effect";
-        } else {
-          console.error("Unknown filter type:", labelText);
-          return;
-        }
+      state.filters[filterType] = filterValue === "all" ? null : filterValue;
+      filterCards();
 
-        console.log(`Filter clicked: ${filterType} = ${filterValue}`);
+      // Update UI
+      const buttonsContainer = this.closest(".filter-buttons");
+      buttonsContainer.querySelectorAll("button").forEach((b) => {
+        b.classList.toggle("active", b === this);
+      });
+    });
+  });
 
-        // Toggle active state
-        const buttonsContainer = this.closest(".filter-buttons");
-        if (!buttonsContainer) return;
+  // Sort select
+  if (dom.sortSelect) {
+    dom.sortSelect.addEventListener("change", () => {
+      state.sort = dom.sortSelect.value;
+      sortCards();
+    });
+  }
 
-        if (filterValue === "all") {
-          activeFilters[filterType] = null;
-          this.classList.add("active");
-          buttonsContainer.querySelectorAll("button").forEach((b) => {
-            if (b !== this) b.classList.remove("active");
-          });
-        } else {
-          if (this.classList.contains("active")) {
-            this.classList.remove("active");
-            activeFilters[filterType] = null;
-          } else {
-            buttonsContainer.querySelectorAll("button").forEach((b) => {
-              b.classList.remove("active");
-            });
-            this.classList.add("active");
-            activeFilters[filterType] = filterValue;
-          }
-        }
+  // Reset filters
+  if (dom.resetBtn) {
+    dom.resetBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      resetFilters();
+    });
+  }
 
-        filterCards();
-      } catch (error) {
-        console.error("Filter error:", error);
+  // Scroll to top
+  if (dom.scrollBtn) {
+    window.addEventListener("scroll", () => {
+      dom.scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+    dom.scrollBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+}
+
+function initializeFilters() {
+  document.querySelectorAll('[data-filter="all"]').forEach((btn) => {
+    btn.classList.add("active");
+  });
+  document
+    .querySelectorAll('.filter-buttons button:not([data-filter="all"])')
+    .forEach((btn) => {
+      btn.classList.remove("active");
+    });
+  filterCards();
+}
+
+function resetFilters() {
+  state.filters = {
+    search: "",
+    element: null,
+    class: null,
+    effect: null,
+  };
+
+  if (dom.searchInput) dom.searchInput.value = "";
+  document.querySelectorAll(".filter-buttons button").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  document.querySelectorAll('[data-filter="all"]').forEach((btn) => {
+    btn.classList.add("active");
+  });
+
+  filterCards();
+}
+
+// Utility Functions
+function normalize(str) {
+  if (str === null || str === undefined) return "";
+  return str.toString().toLowerCase().trim();
+}
+
+function countSkillsByType(skills, type) {
+  return skills.filter((skill) => skill.type === type).length;
+}
+
+function renderSkillsByType(skills, type) {
+  const filtered = skills.filter((skill) => skill.type === type);
+  if (filtered.length === 0)
+    return `<p class="no-effects">No ${type} effects</p>`;
+
+  return filtered
+    .map(
+      (skill) => `
+    <div class="skill">
+      <h3>${skill.name}</h3>
+      <p>${skill.effect}</p>
+    </div>
+  `
+    )
+    .join("");
+}
+
+function getLinkedElements(currentElement, currentId) {
+  const sameElementChars = state.characters.filter(
+    (char) => char.element === currentElement && char.id !== currentId
+  );
+
+  if (sameElementChars.length === 0) return "<p>No other variants</p>";
+
+  return sameElementChars
+    .map(
+      (char) => `
+    <a href="character-detail.html?character=${char.id}" class="element-icon" title="${char.name}">
+      <img src="${char.image}" alt="${char.name}">
+    </a>
+  `
+    )
+    .join("");
+}
+
+function setupTabs() {
+  document.querySelectorAll(".effect-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document
+        .querySelectorAll(".effect-tab")
+        .forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      document
+        .querySelectorAll(".effect-pane")
+        .forEach((p) => p.classList.remove("active"));
+      document
+        .getElementById(`${tab.dataset.tab}-pane`)
+        .classList.add("active");
+    });
+  });
+}
+
+function initLazyLoad() {
+  if (typeof IntersectionObserver === "undefined") {
+    // Fallback for browsers without IntersectionObserver
+    document.querySelectorAll(".lazyload").forEach((img) => {
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+      }
+    });
+    return;
+  }
+
+  const lazyLoadObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.remove("lazyload");
+        lazyLoadObserver.unobserve(img);
       }
     });
   });
 
-  //sort function
-  if (sortSelect) {
-    sortSelect.addEventListener("change", () => {
-      if (cards.length > 0) {
-        sortCards();
-      }
-    });
-  }
+  document.querySelectorAll(".lazyload").forEach((img) => {
+    lazyLoadObserver.observe(img);
+  });
+}
 
-  //reset all filters
-  if (resetBtn) {
-    resetBtn.addEventListener("click", (e) => {
-      e.preventDefault();
+function showLoading(show) {
+  if (!dom.loadingIndicator) return;
+  dom.loadingIndicator.style.display = show ? "block" : "none";
+}
 
-      //clear search input
-      if (searchInput) searchInput.value = "";
-
-      //reset active filters
-      activeFilters = {
-        element: null,
-        class: null,
-        effect: null,
-      };
-
-      // Remove active classes from all filter buttons
-      document.querySelectorAll(".filter-buttons button").forEach((btn) => {
-        btn.classList.remove("active");
-      });
-
-      // Activate all "All" buttons
-      document.querySelectorAll('[data-filter="all"]').forEach((btn) => {
-        btn.classList.add("active");
-      });
-
-      filterCards();
-    });
-  }
-
-  // scroll to top
-
-  if (scrollBtn) {
-    window.addEventListener("scroll", () => {
-      scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
-    });
-
-    scrollBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  //Helper to count skills by type
-  function countSkills(skills, type) {
-    return skills.filter((skill) => skill.type === type).length;
-  }
-
-  //Helper to render skills by type
-  function renderEffects(skills, type) {
-    const filtered = skills.filter((skill) => skill.type === type);
-    if (filtered.length === 0)
-      return `<p class="no-effects">No ${type} effects</p>`;
-
-    return filtered
-      .map(
-        (skill) => `
-      <div class="skill">
-        <h3>${skill.name}</h3>
-        <p>${skill.effect}</p>
-      </div>`
-      )
-      .join("");
-  }
-
-  //Helper to get linked characters
-  function getLinkedElements(currentElement, currentId) {
-    const sameElementChars = characters.filter(
-      (char) => char.element === currentElement && char.id !== currentId
-    );
-
-    if (sameElementChars.length === 0) return "<p>No other variants</p>";
-
-    return sameElementChars
-      .map(
-        (char) => `
-      <a href="character-detail.html?character=${
-        char.id
-      }" class="element-icon" title="${char.name}">
-        <img src="${char.image.icon || char.image}" alt="${char.name}"></a>`
-      )
-      .join("");
-  }
-
-  //Tab system setup
-  function setupTabs() {
-    document.querySelectorAll(".effect-tab").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        // Remove active class from all tabs
-        document
-          .querySelectorAll(".effect-tab")
-          .forEach((t) => t.classList.remove("active"));
-
-        // Add active class to clicked tab
-        tab.classList.add("active");
-
-        // Hide all panes
-        document
-          .querySelectorAll(".effect-pane")
-          .forEach((p) => p.classList.remove("active"));
-
-        // Show corresponding pane
-        document
-          .getElementById(`${tab.dataset.tab}-pane`)
-          .classList.add("active");
-      });
-    });
-  }
-
-  //Main filtering function
-  function filterCards() {
-    console.log("Active Filters:", activeFilters);
-
-    if (!container) return;
-
-    const searchQuery = searchInput ? normalize(searchInput.value) : "";
-
-    cards.forEach((card) => {
-      const name = card.dataset.name;
-      const element = card.dataset.element;
-      const charClass = card.dataset.class;
-      const effects = card.dataset.effects || "";
-
-      //check search query
-
-      const searchMatch =
-        !searchQuery ||
-        name.includes(searchQuery) ||
-        element.includes(searchQuery) ||
-        charClass.includes(searchQuery) ||
-        effects.includes(searchQuery);
-
-      //check filters
-      const elementMatch =
-        !activeFilters.element || element === activeFilters.element;
-
-      const classMatch =
-        !activeFilters.class || charClass === activeFilters.class;
-
-      let effectMatch = true;
-      if (activeFilters.effect) {
-        if (activeFilters.effect === "none") {
-          effectMatch = effects === "" || effects === "none";
-        } else {
-          effectMatch = effects.includes(activeFilters.effect);
-        }
-      }
-
-      card.style.display =
-        searchMatch && elementMatch && classMatch && effectMatch
-          ? "block"
-          : "none";
-    });
-
-    if (!isCharacterDetailPage && container) {
-      sortCards();
-    }
-  }
-
-  //sorting function
-  function sortCards() {
-    const sortValue = sortSelect.value;
-    const container = document.getElementById("characterGrid");
-    const cardsArray = Array.from(
-      document.querySelectorAll(".card[style*='block']")
-    );
-    if (!container || isCharacterDetailPage) return;
-    cardsArray.sort((a, b) => {
-      const aValue = a.dataset[sortValue.split("-")[0]] || "";
-      const bValue = b.dataset[sortValue.split("-")[0]] || "";
-
-      switch (sortValue) {
-        case "name-asc":
-          return aValue.localeCompare(bValue);
-        case "name-desc":
-          return bValue.localeCompare(aValue);
-        case "element":
-          return aValue.localeCompare(bValue);
-        case "class":
-          return aValue.localeCompare(bValue);
-        default:
-          return 0;
-      }
-    });
-
-    //re-append cards in sorted order
-    cardsArray.forEach((card) => container.appendChild(card));
-  }
-});
+// Start the application
+document.addEventListener("DOMContentLoaded", init);

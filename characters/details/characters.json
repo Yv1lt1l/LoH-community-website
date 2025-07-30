@@ -1,0 +1,81 @@
+{
+    "characters": [
+        {
+        "name": "Water Lairei",
+      "id": "water_lairei",
+      "element": "Water",
+      "class": "Sniper",
+      "effects": ["Freeze"],
+      "image": "../images/character-images/water-Lai.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": [
+        {
+          "name": "Frost Arrow",
+          "effect": "Deals 180% ATK damage with 50% chance to Freeze",
+          "type": "debuff"
+        }
+      ],
+      "profile": "characters/water_lairei.html"
+    },
+    {
+      "name": "Earth Icateztol",
+      "id": "earth_icateztol",
+      "element": "Earth",
+      "class": "Striker",
+      "effects": ["Poison"],
+      "image": "../images/character-images/earth-icateztol.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": [
+        {
+          "name": "Frost Arrow",
+          "effect": "Heals 20% HP",
+          "type": "buff"
+        }
+      ],
+      "profile": "characters/.html"
+    },
+    {
+      "name": "Dark Alev",
+      "id": "dark_alev",
+      "element": "Dark",
+      "class": "Guardian",
+      "effects": ["Stun"],
+      "image": "../images/character-images/dark-Alev.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": ["none"],
+      "profile": "characters/WLairei.html"
+    },
+    {
+      "name": "Light Ahilam",
+      "id": "light_ahilam",
+      "element": "Light",
+      "class": "Warrior",
+      "effects": ["none"],
+      "image": "../images/character-images/light-ahilam.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": [
+        {
+          "name": "Frost Arrow",
+          "effect": "Deals 180% ATK damage with 50% chance to Freeze"
+        }
+      ],
+      "profile": "characters/WLairei.html"
+    },
+    {
+      "name": "Fire Vanessa",
+      "id": "fire_vanessa",
+      "element": "Fire",
+      "class": "Cleric",
+      "effects": ["none"],
+      "image": "../images/character-images/fire-vanessa.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": [
+        {
+          "name": "Frost Arrow",
+          "effect": "Deals 180% ATK damage with 50% chance to Freeze"
+        }
+      ],
+      "profile": "characters/WLairei.html"
+    }
+    ]
+}

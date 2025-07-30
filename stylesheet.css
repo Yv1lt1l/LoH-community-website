@@ -699,6 +699,26 @@ footer {
   font-style: italic;
 }
 
+/* Required */
+#loading-indicator,
+.no-results,
+.error {
+  text-align: center;
+  padding: 20px;
+  grid-column: 1 / -1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 20px 0;
+}
+
+.effect-pane:not(.active) {
+  display: none;
+}
+
 /* Linked Elements */
 .linked-elements {
   margin-top: 15px;
