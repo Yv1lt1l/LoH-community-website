@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           name: "Frost Arrow",
           effect: "Deals 180% ATK damage with 50% chance to Freeze",
+          type: "debuff",
         },
       ],
       profile: "characters/water_lairei.html",
@@ -46,7 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
       skills: [
         {
           name: "Frost Arrow",
-          effect: "Deals 180% ATK damage with 50% chance to Freeze",
+          effect: "Heals 20% HP",
+          type: "buff",
         },
       ],
       profile: "characters/.html",
@@ -59,12 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       effects: ["Stun"],
       image: "../images/character-images/dark-Alev.jpg",
       stats: { atk: 1420, def: 980 },
-      skills: [
-        {
-          name: "Frost Arrow",
-          effect: "Deals 180% ATK damage with 50% chance to Freeze",
-        },
-      ],
+      skills: [],
       profile: "characters/WLairei.html",
     },
     {
@@ -225,7 +222,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="meta-tags">
           <span class="element ${character.element}">${character.element}</span>
           <span class="class">${character.class}</span>
+
+          <!-- Linked Elementa Section -->
+          <div class="linked-elements">
+          <p class="see-other">See other ${character.element}:</p>
+          <div class="element-icons">
+          ${getLinkedElements(character.element, character.id)}
+          </div>
         </div>
+      </div>
       </div>
     </section>
     
@@ -243,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <!-- Add other stats -->
       </div>
     </section>
-    
+      
     <section class="character-skills">
       <h2>Skills</h2>
       ${charSkills
@@ -257,12 +262,39 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .join("")}
     </section>
+
+    <!-- New Effects Tab System -->
+    <section class="character-effects">
+      <div class="effect-tabs">
+        <button class="effect-tab active" data-tab="buffs">Buffs (${countSkills(
+          character.skills,
+          "buff"
+        )})</button>
+        <button class="effect-tab" data-tab="debuffs">Debuffs (${countSkills(
+          character.skills,
+          "debuff"
+        )})</button>
+      </div>
+
+      <div class="effect-content">
+        <div class="effect-pane active" id="buffs-pane">
+          ${renderEffects(character.skills, "buff")}
+        </div>
+        <div class="effects-pane" id="debuffs-pane">
+          ${renderEffects(character.skills, "debuff")}
+        </div>
+      </div>
+    </section>
     
     <a href="characters.html" class="back-button">
       ← Back to Characters
     </a>
   `;
+
+    // Activate the tab system
+    setupTabs();
   }
+
   // live search
   if (searchInput) {
     let searchTimeout;
@@ -388,6 +420,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
     scrollBtn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  //Helper to count skills by type
+  function countSkills(skills, type) {
+    return skills.filter((skill) => skill.type === type).length;
+  }
+
+  //Helper to render skills by type
+  function renderEffects(skills, type) {
+    const filtered = skills.filter((skill) => skill.type === type);
+    if (filtered.length === 0)
+      return `<p class="no-effects">No ${type} effects</p>`;
+
+    return filtered
+      .map(
+        (skill) => `
+      <div class="skill">
+        <h3>${skill.name}</h3>
+        <p>${skill.effect}</p>
+      </div>`
+      )
+      .join("");
+  }
+
+  //Helper to get linked characters
+  function getLinkedElements(currentElement, currentId) {
+    const sameElementChars = characters.filter(
+      (char) => char.element === currentElement && char.id !== currentId
+    );
+
+    if (sameElementChars.length === 0) return "<p>No other variants</p>";
+
+    return sameElementChars
+      .map(
+        (char) => `
+      <a href="character-detail.html?character=${
+        char.id
+      }" class="element-icon" title="${char.name}">
+        <img src="${char.image.icon || char.image}" alt="${char.name}"></a>`
+      )
+      .join("");
+  }
+
+  //Tab system setup
+  function setupTabs() {
+    document.querySelectorAll(".effect-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        // Remove active class from all tabs
+        document
+          .querySelectorAll(".effect-tab")
+          .forEach((t) => t.classList.remove("active"));
+
+        // Add active class to clicked tab
+        tab.classList.add("active");
+
+        // Hide all panes
+        document
+          .querySelectorAll(".effect-pane")
+          .forEach((p) => p.classList.remove("active"));
+
+        // Show corresponding pane
+        document
+          .getElementById(`${tab.dataset.tab}-pane`)
+          .classList.add("active");
+      });
     });
   }
 

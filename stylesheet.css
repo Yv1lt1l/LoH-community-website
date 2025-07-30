@@ -653,6 +653,89 @@ footer {
   color: #7f8c8d;
 }
 
+/* Effect Tabs */
+.effect-tabs {
+  display: flex;
+  border-bottom: 2px solid #ecf0f1;
+  margin: 20px 0;
+}
+
+.effect-tab {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  color: #7f8c8d;
+  cursor: pointer;
+  position: relative;
+}
+
+.effect-tab.active {
+  color: #2c3e50;
+}
+
+.effect-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #3498db;
+}
+
+.effect-pane {
+  display: none;
+  padding: 15px 0;
+}
+
+.effect-pane.active {
+  display: block;
+}
+
+.no-effects {
+  color: #95a5a6;
+  font-style: italic;
+}
+
+/* Linked Elements */
+.linked-elements {
+  margin-top: 15px;
+}
+
+.see-other {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 10px 0 5px 0;
+}
+
+.element-icons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.element-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.element-icon:hover {
+  transform: scale(1.1);
+}
+
+.element-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* Back Button */
 .back-button {
   display: inline-block;
