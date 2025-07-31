@@ -170,6 +170,7 @@ function renderCharacterDetailPage() {
 
 function renderCharacterDetail(character) {
   const container = document.getElementById("character-root");
+  const baseId = character.base_id || null;
   if (!container) return;
 
   container.innerHTML = `
@@ -190,12 +191,28 @@ function renderCharacterDetail(character) {
         <div class="linked-elements">
           <p class="see-other">See other ${character.element}:</p>
           <div class="element-icons">
-            ${getLinkedElements(character.element, character.id)}
+            ${getLinkedElements(character.element, character.id, baseId)}
           </div>
         </div>
       </div>
     </section>
     
+    <!-- Character Bio Section -->
+    <section class="character-bio">
+      <h2>Description</h2>
+      <p>${character.description || "No description available."}</p>
+    </section>
+
+    <!-- Recommended Builds -->
+    <section class="recommended-builds">
+      <h2>Recommended Builds</h2>
+      ${
+        character.recommended_builds
+          ? renderBuilds(character.recommended_builds)
+          : "<p>No recommended builds yet.</p>"
+      }
+    </section>
+
     <section class="character-stats">
       <h2>Stats</h2>
       <div class="stat-grid">
@@ -471,6 +488,28 @@ function resetFilters() {
 }
 
 // Utility Functions
+function renderBuilds(builds) {
+  return `
+    <div class="builds-grid">
+      ${builds
+        .map(
+          (build) => `
+        <div class="build-card">
+          <h3>${build.name}</h3>
+          <div class="build-details">
+            <p><strong>Weapon:</strong> ${build.weapon}</p>
+            <p><strong>Artifacts:</strong> ${build.artifacts.join(", ")}</p>
+            <p><strong>Priority Stats:</strong> ${build.stats.join(" > ")}</p>
+            <p class="build-desc">${build.description}</p>
+          </div>
+        </div>
+      `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function normalize(str) {
   if (str === null || str === undefined) return "";
   return str.toString().toLowerCase().trim();
@@ -497,20 +536,29 @@ function renderSkillsByType(skills, type) {
     .join("");
 }
 
-function getLinkedElements(currentElement, currentId) {
-  const sameElementChars = state.characters.filter(
-    (char) => char.element === currentElement && char.id !== currentId
-  );
+function getLinkedElements(currentElement, currentId, baseId) {
+  // Get base_id if exists, otherwise use element
+  const variants = state.characters.filter((char) => {
+    // Don't show current character
+    if (char.id === currentId) return false;
+    if (baseId) return char.base_id === baseId;
+    return char.element.toLowerCase() === currentElement.toLowerCase();
+  });
 
-  if (sameElementChars.length === 0) return "<p>No other variants</p>";
+  if (variants.length === 0) {
+    return '<p class="no-variants">No variants found</p>';
+  }
 
-  return sameElementChars
+  return variants
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map(
       (char) => `
-    <a href="character-detail.html?character=${char.id}" class="element-icon" title="${char.name}">
-      <img src="${char.image}" alt="${char.name}">
-    </a>
-  `
+      <a href="character-detail.html?character=${encodeURIComponent(char.id)}"
+         class="variant-link"
+         data-tooltip="${char.element} ${char.name}">
+        <img src="${char.image}" alt="${char.name}">
+      </a>
+    `
     )
     .join("");
 }

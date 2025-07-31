@@ -2,6 +2,7 @@
     "characters": [
         {
         "name": "Water Lairei",
+      "base_id": "lairei",
       "id": "water_lairei",
       "element": "Water",
       "class": "Sniper",
@@ -18,7 +19,26 @@
       "profile": "characters/water_lairei.html"
     },
     {
+      "name": "Earth Lairei",
+      "base_id": "lairei",
+      "id": "earth_lairei",
+      "element": "Earth",
+      "class": "Striker",
+      "effects": ["Freeze"],
+      "image": "../images/character-images/water-Lai.jpg",
+      "stats": { "atk": 1420, "def": 980 },
+      "skills": [
+        {
+          "name": "Frost Arrow",
+          "effect": "Deals 180% ATK damage with 50% chance to Freeze",
+          "type": "debuff"
+        }
+      ],
+      "profile": "characters/water_lairei.html"
+    },
+    {
       "name": "Earth Icateztol",
+      "base_id": "icateztol",
       "id": "earth_icateztol",
       "element": "Earth",
       "class": "Striker",
@@ -36,7 +56,8 @@
     },
     {
       "name": "Dark Alev",
-      "id": "dark_alev",
+      "base_id": "alev",
+      "id": "dark-alev",
       "element": "Dark",
       "class": "Guardian",
       "effects": ["Stun"],
@@ -47,6 +68,7 @@
     },
     {
       "name": "Light Ahilam",
+      "base_id": "ahilam",
       "id": "light_ahilam",
       "element": "Light",
       "class": "Warrior",
@@ -63,6 +85,7 @@
     },
     {
       "name": "Fire Vanessa",
+      "base_id": "vanessa",
       "id": "fire_vanessa",
       "element": "Fire",
       "class": "Cleric",
