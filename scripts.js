@@ -72,7 +72,7 @@ async function loadCharacters() {
       profile: char.profile || CONFIG.defaultProfile,
       effects: char.effects || [],
       skills: char.skills || [],
-      stats: char.stats || { atk: 0, def: 0 },
+      stats: char.stats || { atk: 0, def: 0, spd: 0, hp: 0 },
     }));
 
     state.filteredCharacters = [...state.characters];
@@ -223,6 +223,14 @@ function renderCharacterDetail(character) {
         <div class="stat">
           <span class="stat-label">DEF</span>
           <span class="stat-value">${character.stats.def}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">SPD</span>
+          <span class="stat-value">${character.stats.spd}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">HP</span>
+          <span class="stat-value">${character.stats.hp}</span>
         </div>
       </div>
     </section>

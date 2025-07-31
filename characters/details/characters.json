@@ -8,7 +8,7 @@
       "class": "Sniper",
       "effects": ["Freeze"],
       "image": "../images/character-images/water-Lai.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "stats": { "atk": 1420, "hp": 140, "def": 980, "spd": 1200 },
       "skills": [
         {
           "name": "Frost Arrow",
@@ -26,7 +26,7 @@
       "class": "Striker",
       "effects": ["Freeze"],
       "image": "../images/character-images/earth-Lai.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
           "name": "Frost Arrow",
@@ -44,7 +44,7 @@
       "class": "Striker",
       "effects": ["Poison"],
       "image": "../images/character-images/earth-icateztol.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
           "name": "Frost Arrow",
@@ -62,7 +62,7 @@
       "class": "Guardian",
       "effects": ["Stun"],
       "image": "../images/character-images/dark-Alev.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": ["none"],
       "profile": "characters/WLairei.html"
     },
@@ -74,7 +74,7 @@
       "class": "Guardian",
       "effects": ["none"],
       "image": "../images/character-images/light-ahilam.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
           "name": "Frost Arrow",
@@ -90,8 +90,8 @@
       "element": "Fire",
       "class": "Cleric",
       "effects": ["none"],
-      "image": "../images/character-images/fire-vanessa.jpg",
-      "stats": { "atk": 1420, "def": 980 },
+      "image": "../images/character-images/fire_van.webp",
+      "stats": { "atk": 173, "hp": 2643, "def": 204, "spd": 103 },
       "skills": [
         {
           "name": "Frost Arrow",
