@@ -25,7 +25,7 @@
       "element": "Earth",
       "class": "Striker",
       "effects": ["Freeze"],
-      "image": "../images/character-images/water-Lai.jpg",
+      "image": "../images/character-images/earth-Lai.jpg",
       "stats": { "atk": 1420, "def": 980 },
       "skills": [
         {
@@ -71,7 +71,7 @@
       "base_id": "ahilam",
       "id": "light_ahilam",
       "element": "Light",
-      "class": "Warrior",
+      "class": "Guardian",
       "effects": ["none"],
       "image": "../images/character-images/light-ahilam.jpg",
       "stats": { "atk": 1420, "def": 980 },
