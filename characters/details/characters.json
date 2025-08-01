@@ -62,7 +62,7 @@
       "class": "Guardian",
       "effects": ["Stun"],
       "image": "../images/character-images/dark-Alev.jpg",
-      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
+      "stats": { "atk": 394, "hp": 3972, "def": 385, "spd": 103 },
       "skills": ["none"],
       "profile": "characters/WLairei.html"
     },
