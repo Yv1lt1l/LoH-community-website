@@ -92,7 +92,7 @@
       "description": "Placeholder text",
       "recommended_builds": [
         {
-          "weapon:": "Divine Relic",
+          "weapon": "Divine Relic",
           "artifacts": ["4-piece Healer, 2-piece Strength", "4x Strength"],
           "stats": ["ATK%", "Debuff Rate", "SPD"],
           "description": "Placeholder text"
