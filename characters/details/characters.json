@@ -89,6 +89,15 @@
       "id": "fire_vanessa",
       "element": "Fire",
       "class": "Cleric",
+      "description": "Placeholder text",
+      "recommended_builds": [
+        {
+          "weapon:": "Divine Relic",
+          "artifacts": ["4-piece Healer, 2-piece Strength", "4x Strength"],
+          "stats": ["ATK%", "Debuff Rate", "SPD"],
+          "description": "Placeholder text"
+        }
+      ],
       "effects": ["none"],
       "image": "../images/character-images/fire_van.webp",
       "stats": { "atk": 173, "hp": 2643, "def": 204, "spd": 103 },
