@@ -6,13 +6,15 @@
       "id": "water_lairei",
       "element": "Water",
       "class": "Sniper",
+      "description":"Placeholder text",
       "effects": ["Freeze"],
       "image": "../images/character-images/water-Lai.jpg",
       "stats": { "atk": 1420, "hp": 140, "def": 980, "spd": 1200 },
       "skills": [
         {
           "name": "Frost Arrow",
-          "effect": "Deals 180% ATK damage with 50% chance to Freeze",
+          "description": "Deals 180% ATK damage with 50% chance to Freeze",
+          "effects": ["Freeze"],
           "type": "debuff"
         }
       ],
@@ -98,13 +100,15 @@
           "description": "Placeholder text"
         }
       ],
-      "effects": ["none"],
+      "effects": ["Defense Up"],
       "image": "../images/character-images/fire_van.webp",
       "stats": { "atk": 173, "hp": 2643, "def": 204, "spd": 103 },
       "skills": [
         {
-          "name": "Frost Arrow",
-          "effect": "Deals 180% ATK damage with 50% chance to Freeze"
+          "name": "Melody of Salvation",
+          "description": "Heals all allies and increases Defense for 2 turns. Heal strength increases based on the users Defense",
+          "effects": ["Defense Up"],
+          "type": "buff" 
         }
       ],
       "profile": "characters/WLairei.html"

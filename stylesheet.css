@@ -799,6 +799,37 @@ footer {
   font-family: "Raleway", sans-serif;
 }
 
+.skill {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.skill h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.skill-description {
+  margin-bottom: 0.5rem;
+}
+
+.skill-effects {
+  margin-top: 0.5rem;
+}
+
+.skill-effects h4 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.skill-effects ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
 /* Builds Grid */
 .builds-grid {
   display: grid;

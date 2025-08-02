@@ -242,7 +242,7 @@ function renderCharacterDetail(character) {
           (skill) => `
         <div class="skill">
           <h3>${skill.name}</h3>
-          <p>${skill.effect}</p>
+          <p>${skill.description}</p>
         </div>
       `
         )
@@ -528,20 +528,23 @@ function countSkillsByType(skills, type) {
 }
 
 function renderSkillsByType(skills, type) {
-  const filtered = skills.filter((skill) => skill.type === type);
-  if (filtered.length === 0)
-    return `<p class="no-effects">No ${type} effects</p>`;
+  const filtered = skills
+    .filter((skill) => skill.type === type)
+    .flatMap((skill) => skill.effects || []);
 
-  return filtered
-    .map(
-      (skill) => `
-    <div class="skill">
-      <h3>${skill.name}</h3>
-      <p>${skill.effect}</p>
-    </div>
-  `
-    )
-    .join("");
+  const uniqueEffects = [...new Set(filtered.map((e) => e.trim()))];
+
+  if (uniqueEffects.length === 0) {
+    return `<p class="no-effects">No ${type} effects</p>`;
+  }
+
+  return `
+    <ul class="effect-list">
+      ${uniqueEffects
+        .map((effect) => `<li class="effect-item">${effect}</li>`)
+        .join("")}
+    </ul>
+  `;
 }
 
 function getLinkedElements(currentElement, currentId, baseId) {
