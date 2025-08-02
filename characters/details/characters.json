@@ -32,10 +32,10 @@
       "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
-          "name": "Frost Arrow",
-          "description": "Deals 180% ATK damage with 50% chance to Freeze",
-          "effects": ["Freeze"],
-          "type": "debuff"
+          "name": "Earth Arrow",
+          "description": "Deals 200% ATK damage with 50% chance to cleanse",
+          "effects": ["cleanse"],
+          "type": "buff"
         }
       ],
       "profile": "characters/water_lairei.html"
