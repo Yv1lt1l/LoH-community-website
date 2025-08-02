@@ -26,13 +26,15 @@
       "id": "earth_lairei",
       "element": "Earth",
       "class": "Striker",
+      "description": "Placeholder text",
       "effects": ["Freeze"],
       "image": "../images/character-images/earth-Lai.jpg",
       "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
           "name": "Frost Arrow",
-          "effect": "Deals 180% ATK damage with 50% chance to Freeze",
+          "description": "Deals 180% ATK damage with 50% chance to Freeze",
+          "effects": ["Freeze"],
           "type": "debuff"
         }
       ],
@@ -44,13 +46,15 @@
       "id": "earth_icateztol",
       "element": "Earth",
       "class": "Striker",
+      "description": "Placeholder text",
       "effects": ["Poison"],
       "image": "../images/character-images/earth-icateztol.jpg",
       "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
-          "name": "Frost Arrow",
-          "effect": "Heals 20% HP",
+          "name": "Leech",
+          "description": "Deals dmg and heals 20% HP based on 30% of damage dealt.",
+          "effects": ["Heals 20% HP"],
           "type": "buff"
         }
       ],
@@ -62,10 +66,18 @@
       "id": "dark-alev",
       "element": "Dark",
       "class": "Guardian",
+      "description": "Placeholder text",
       "effects": ["Stun"],
       "image": "../images/character-images/dark-Alev.jpg",
       "stats": { "atk": 394, "hp": 3972, "def": 385, "spd": 103 },
-      "skills": ["none"],
+      "skills": [
+        {
+          "name": "Shock and Awe",
+          "description": "Deals 180% ATK damage with 50% chance to inflict Stun.",
+          "effects": ["Inflict Stun for 2 turns"],
+          "type": "buff"
+        }
+      ],
       "profile": "characters/WLairei.html"
     },
     {
@@ -74,13 +86,16 @@
       "id": "light_ahilam",
       "element": "Light",
       "class": "Guardian",
-      "effects": ["none"],
+      "description": "Placeholder text",
+      "effects": ["Solar Sting"],
       "image": "../images/character-images/light-ahilam.jpg",
       "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
       "skills": [
         {
-          "name": "Frost Arrow",
-          "effect": "Deals 180% ATK damage with 50% chance to Freeze"
+          "name": "Solar Solace",
+          "description": "Deals 600% ATK damage with 20% chance to inflict Solar",
+          "effects": "Increases damage by 60% against those inflicted with Solar",
+          "type": "buff"
         }
       ],
       "profile": "characters/WLairei.html"
