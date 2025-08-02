@@ -94,7 +94,7 @@
         {
           "name": "Solar Solace",
           "description": "Deals 600% ATK damage with 20% chance to inflict Solar",
-          "effects": "Increases damage by 60% against those inflicted with Solar",
+          "effects": ["Increases damage by 60% against those inflicted with Solar"],
           "type": "buff"
         }
       ],
