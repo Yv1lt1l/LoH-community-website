@@ -86,15 +86,27 @@
       "id": "light_ahilam",
       "element": "Light",
       "class": "Guardian",
-      "description": "Placeholder text",
-      "effects": ["Solar Sting"],
+      "description": "A defense guardian who scales on Health and SPD. She is the best universal guardian.",
+      "effects": ["Solar Resolve", "Defense Down", "Action Gauge Up", "Attack Up", "DMG based on target max HP Up", "Invincibility", "Elemental Weakness"],
       "image": "../images/character-images/light-ahilam.jpg",
-      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
+      "stats": { "atk": 314, "hp": 5308, "def": 314, "spd": 104 },
       "skills": [
         {
-          "name": "Solar Solace",
-          "description": "Deals 600% ATK damage with 20% chance to inflict Solar",
-          "effects": ["Increases damage by 60% against those inflicted with Solar"],
+          "name": "S1 (Basic ATK) Piercing Spark",
+          "description": "Attacks the selected enemy. Damage dealt increases based on the user's maximum health. 90% chance to reduce Defense of the target for 2 turns",
+          "effects": ["Defense Down"],
+          "type": "debuff"
+        },
+        {
+          "name": "S2 (Skill) Flash Ignite",
+          "description": "Attacks all enemies. Damage dealt increases based on the user's maximum health. Fills the action gauge of all allies by 40%. Increases Attack of all allies for 2 turns. Grants Solar Resolve for 2 turns. Solar Resolve increases damage dealt to enemies by 200%, damage taken by 20%, and reduces damage taken by all allies by 35% excluding Guardian heroes and allies under the effects of Resolve. This effect does not stack with Resolve and cannot be transferred or removed.",
+          "effects": ["Action Gauge Up", "Attack Up", "Solar Resolve"],
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Solas Burst",
+          "description": "Attacks all enemies. Damage dealt increases based on user(s) maximum health. Deals up to 5x addiitonal damage based on the targets maximum health. Grants Invincibility to Striker allies for 3 turns upon attacking a dark elemental enemy. 100% chance to inflict Elemental Weakness on all dark enemies for 4 turns. Targets under Elemental Weakness are always considered to be at elemental disadvantage.",
+          "effects": ["Elemental Weakness", "Invincibility"],
           "type": "buff"
         }
       ],
