@@ -304,7 +304,7 @@ function filterCards() {
       (effect === "none"
         ? char.effects.length === 0
         : char.effects.some(
-            (e) => normalizeEffectName(e) === normalizeEffectName(effect)
+            (e) => normalizeEffectName(e) === effect.toLowerCase()
           ));
 
     return matchesSearch && matchesElement && matchesClass && matchesEffect;
@@ -315,6 +315,7 @@ function filterCards() {
 }
 
 function normalizeEffectName(effect) {
+  if (!effect) return "";
   return effect.toLowerCase().replace(/\s+/g, "_");
 }
 
