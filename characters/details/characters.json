@@ -65,12 +65,12 @@
       "class": "Guardian",
       "description": "An offensive Guardian. Recommended stats are Defense and Speed",
       "effects": [
-        "Action Gauge Up",
+        "Action_Gauge_Up",
         "Revenge",
-        "Attack Strength Up",
-        "Conditional Damage Up",
+        "Attack_Strength_Up",
+        "Conditional_Damage_Up",
         "Resolve",
-        "Damage Against Light Up"
+        "Damage_Against_Light_Up"
       ],
       "image": "../images/character-images/dark-Alev.jpg",
       "stats": { "atk": 394, "hp": 3972, "def": 385, "spd": 103 },
@@ -78,13 +78,13 @@
         {
           "name": "S1 (Basic ATK) Reverse Slash",
           "description": "Attacks the selected enemy. Damage dealt increases based on the user's Defense. Fills the action gauge of all allies by 10%. Fills the action gauge of dark elemental allies by an added 15%.",
-          "effects": ["Action Gauge Up"],
+          "effects": ["Action_Gauge_Up"],
           "type": "buff"
         },
         {
           "name": "S2 (Skill) Ignis Buster",
           "description": "Attacks all enemies. Damage dealt increases based on user's Defense. Fills the action gauge of all allies by 20%. Fills the action gauge of dark elemental allies by an added 15%. Additionally, grants Revenge for 2 turns. Increases Attack Strength of all allies for 2 turns.",
-          "effects": ["Revenge", "Action Gauge Up", "Attack Strength Up"],
+          "effects": ["Revenge", "Action_Gauge_Up", "Attack_Strength_Up"],
           "type": "buff"
         },
         {
@@ -103,13 +103,13 @@
       "class": "Guardian",
       "description": "A defense guardian who scales on Health. Recommended stats are Health and Speed. She is the best universal guardian.",
       "effects": [
-        "Solar Resolve",
-        "Defense Down",
-        "Action Gauge Up",
-        "Attack Up",
-        "DMG based on target max HP Up",
+        "Solar_Resolve",
+        "Defense_Down",
+        "Action_Gauge_Up",
+        "Attack_Up",
+        "DMG_based_on_target_max_HP_Up",
         "Invincibility",
-        "Elemental Weakness"
+        "Elemental_Weakness"
       ],
       "image": "../images/character-images/light-ahilam.jpg",
       "stats": { "atk": 314, "hp": 5308, "def": 314, "spd": 104 },
@@ -117,25 +117,25 @@
         {
           "name": "S1 (Basic ATK) Piercing Spark",
           "description": "Attacks the selected enemy. Damage dealt increases based on the user's maximum health. 90% chance to reduce Defense of the target for 2 turns.",
-          "effects": ["Defense Down"],
+          "effects": ["Defense_Down"],
           "type": "debuff"
         },
         {
           "name": "S2 (Skill) Flash Ignite",
           "description": "Attacks all enemies. Damage dealt increases based on the user's maximum health. Fills the action gauge of all allies by 40%. Increases Attack of all allies for 2 turns. Grants Solar Resolve for 2 turns. Solar Resolve increases damage dealt to enemies by 200%, damage taken by 20%, and reduces damage taken by all allies by 35% excluding Guardian heroes and allies under the effects of Resolve. This effect does not stack with Resolve and cannot be transferred or removed.",
-          "effects": ["Action Gauge Up", "Attack Up", "Solar Resolve"],
+          "effects": ["Action_Gauge Up", "Attack_Up", "Solar_Resolve"],
           "type": "buff"
         },
         {
           "name": "S3 (Ultimate) Solas Burst",
           "description": "Attacks all enemies. Damage dealt increases based on user(s) maximum health. Deals up to 5x addiitonal damage based on the targets maximum health. Grants Invincibility to Striker allies for 3 turns upon attacking a dark elemental enemy. 100% chance to inflict Elemental Weakness on all dark enemies for 4 turns. Targets under Elemental Weakness are always considered to be at elemental disadvantage.",
-          "effects": ["Elemental Weakness", "Invincibility"],
+          "effects": ["Elemental_Weakness", "Invincibility"],
           "type": "buff"
         },
         {
           "name": "(Aptitude Skill) Oberon's Protection",
           "description": "Reduces damage taken by all allies from dark element enemies by 7%. Increases damage dealt by user against dark elementals by 7%.",
-          "effects": ["Reduced Damage Taken", "Increase Damage Dealt"],
+          "effects": ["Reduced_Damage_Taken", "Increase_Damage_Dealt"],
           "type": "buff"
         }
       ]
@@ -155,7 +155,7 @@
           "description": "Placeholder text"
         }
       ],
-      "effects": ["Defense Up", "Healing", "Invincibility"],
+      "effects": ["Defense_Up", "Healing", "Invincibility"],
       "image": "../images/character-images/fire_van.webp",
       "stats": { "atk": 173, "hp": 2643, "def": 204, "spd": 103 },
       "skills": [
@@ -166,7 +166,7 @@
         {
           "name": "S2 (skill) Melody of Salvation",
           "description": "Heals all allies and increases Defense for 2 turns. Heal strength increases based on the users Defense.",
-          "effects": ["Defense Up"],
+          "effects": ["Defense_Up"],
           "type": "buff"
         },
         {
