@@ -303,13 +303,19 @@ function filterCards() {
       !effect ||
       (effect === "none"
         ? char.effects.length === 0
-        : char.effects.map((e) => e.toLowerCase()).includes(effect));
+        : char.effects.some(
+            (e) => normalizeEffectName(e) === normalizeEffectName(effect)
+          ));
 
     return matchesSearch && matchesElement && matchesClass && matchesEffect;
   });
 
   state.currentPage = 1; // Reset to first page when filters change
   renderCharacterGrid();
+}
+
+function normalizeEffectName(effect) {
+  return effect.toLowerCase().replace(/\s+/g, "_");
 }
 
 function sortCards() {
