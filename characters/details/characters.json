@@ -1,12 +1,12 @@
 {
-    "characters": [
-        {
-        "name": "Water Lairei",
+  "characters": [
+    {
+      "name": "Water Lairei",
       "base_id": "lairei",
       "id": "water_lairei",
       "element": "Water",
       "class": "Sniper",
-      "description":"Placeholder text",
+      "description": "Placeholder text",
       "effects": ["Freeze"],
       "image": "../images/character-images/water-Lai.jpg",
       "stats": { "atk": 1420, "hp": 140, "def": 980, "spd": 1200 },
@@ -17,8 +17,7 @@
           "effects": ["Freeze"],
           "type": "debuff"
         }
-      ],
-      "profile": "characters/water_lairei.html"
+      ]
     },
     {
       "name": "Earth Lairei",
@@ -37,8 +36,7 @@
           "effects": ["cleanse"],
           "type": "buff"
         }
-      ],
-      "profile": "characters/water_lairei.html"
+      ]
     },
     {
       "name": "Earth Icateztol",
@@ -57,8 +55,7 @@
           "effects": ["Heals 20% HP"],
           "type": "buff"
         }
-      ],
-      "profile": "characters/.html"
+      ]
     },
     {
       "name": "Dark Alev",
@@ -66,19 +63,37 @@
       "id": "dark-alev",
       "element": "Dark",
       "class": "Guardian",
-      "description": "Placeholder text",
-      "effects": ["Stun"],
+      "description": "An offensive Guardian. Recommended stats are Defense and Speed",
+      "effects": [
+        "Action Gauge Up",
+        "Revenge",
+        "Attack Strength Up",
+        "Conditional Damage Up",
+        "Resolve",
+        "Damage Against Light Up"
+      ],
       "image": "../images/character-images/dark-Alev.jpg",
       "stats": { "atk": 394, "hp": 3972, "def": 385, "spd": 103 },
       "skills": [
         {
-          "name": "Shock and Awe",
-          "description": "Deals 180% ATK damage with 50% chance to inflict Stun.",
-          "effects": ["Inflict Stun for 2 turns"],
+          "name": "S1 (Basic ATK) Reverse Slash",
+          "description": "Attacks the selected enemy. Damage dealt increases based on the user's Defense. Fills the action gauge of all allies by 10%. Fills the action gauge of dark elemental allies by an added 15%.",
+          "effects": ["Action Gauge Up"],
+          "type": "buff"
+        },
+        {
+          "name": "S2 (Skill) Ignis Buster",
+          "description": "Attacks all enemies. Damage dealt increases based on user's Defense. Fills the action gauge of all allies by 20%. Fills the action gauge of dark elemental allies by an added 15%. Additionally, grants Revenge for 2 turns. Increases Attack Strength of all allies for 2 turns.",
+          "effects": ["Revenge", "Action Gauge Up", "Attack Strength Up"],
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Deathscythe",
+          "description": "Attacks all enemies. Damage dealt increases based on the user's Defense. Damage dealt increases by 200% if the user is under the effects of Revenge. Additionally, grants Resolve to the user for 3 turns. This attack deals 150% more damage against light elementals. Resolve increases damage dealt against enemies by 100%. Increases damage taken by the user by 35%. Additionally, reduces damage taken by all allies by 35%, except for Guardians and allies under the effects of Resolve.",
+          "effects": ["Resolve"],
           "type": "buff"
         }
-      ],
-      "profile": "characters/WLairei.html"
+      ]
     },
     {
       "name": "Light Ahilam",
@@ -86,14 +101,22 @@
       "id": "light_ahilam",
       "element": "Light",
       "class": "Guardian",
-      "description": "A defense guardian who scales on Health and SPD. She is the best universal guardian.",
-      "effects": ["Solar Resolve", "Defense Down", "Action Gauge Up", "Attack Up", "DMG based on target max HP Up", "Invincibility", "Elemental Weakness"],
+      "description": "A defense guardian who scales on Health. Recommended stats are Health and Speed. She is the best universal guardian.",
+      "effects": [
+        "Solar Resolve",
+        "Defense Down",
+        "Action Gauge Up",
+        "Attack Up",
+        "DMG based on target max HP Up",
+        "Invincibility",
+        "Elemental Weakness"
+      ],
       "image": "../images/character-images/light-ahilam.jpg",
       "stats": { "atk": 314, "hp": 5308, "def": 314, "spd": 104 },
       "skills": [
         {
           "name": "S1 (Basic ATK) Piercing Spark",
-          "description": "Attacks the selected enemy. Damage dealt increases based on the user's maximum health. 90% chance to reduce Defense of the target for 2 turns",
+          "description": "Attacks the selected enemy. Damage dealt increases based on the user's maximum health. 90% chance to reduce Defense of the target for 2 turns.",
           "effects": ["Defense Down"],
           "type": "debuff"
         },
@@ -108,9 +131,14 @@
           "description": "Attacks all enemies. Damage dealt increases based on user(s) maximum health. Deals up to 5x addiitonal damage based on the targets maximum health. Grants Invincibility to Striker allies for 3 turns upon attacking a dark elemental enemy. 100% chance to inflict Elemental Weakness on all dark enemies for 4 turns. Targets under Elemental Weakness are always considered to be at elemental disadvantage.",
           "effects": ["Elemental Weakness", "Invincibility"],
           "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Oberon's Protection",
+          "description": "Reduces damage taken by all allies from dark element enemies by 7%. Increases damage dealt by user against dark elementals by 7%.",
+          "effects": ["Reduced Damage Taken", "Increase Damage Dealt"],
+          "type": "buff"
         }
-      ],
-      "profile": "characters/WLairei.html"
+      ]
     },
     {
       "name": "Fire Vanessa",
@@ -118,7 +146,7 @@
       "id": "fire_vanessa",
       "element": "Fire",
       "class": "Cleric",
-      "description": "Placeholder text",
+      "description": "A Defense Cleric who scales on Defense and Health(S3). Her recommended stats are Health and Defense.",
       "recommended_builds": [
         {
           "weapon": "Divine Relic",
@@ -127,18 +155,27 @@
           "description": "Placeholder text"
         }
       ],
-      "effects": ["Defense Up"],
+      "effects": ["Defense Up", "Healing", "Invincibility"],
       "image": "../images/character-images/fire_van.webp",
       "stats": { "atk": 173, "hp": 2643, "def": 204, "spd": 103 },
       "skills": [
         {
-          "name": "Melody of Salvation",
-          "description": "Heals all allies and increases Defense for 2 turns. Heal strength increases based on the users Defense",
+          "name": "S1 (Basic ATK) Melody of Passion",
+          "description": "Attacks selected enemy. Attack strength increases based on user's Defense."
+        },
+        {
+          "name": "S2 (skill) Melody of Salvation",
+          "description": "Heals all allies and increases Defense for 2 turns. Heal strength increases based on the users Defense.",
           "effects": ["Defense Up"],
-          "type": "buff" 
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Battleground Symphony",
+          "description": "Heals all allies and grants Invincibility for 1 turn. Heal strength increases based on user's maximum health.",
+          "effects": ["Invincibility"],
+          "type": "buff"
         }
-      ],
-      "profile": "characters/WLairei.html"
+      ]
     }
-    ]
+  ]
 }

@@ -705,7 +705,8 @@ footer {
 .error {
   text-align: center;
   padding: 20px;
-  grid-column: 1 / -1;
+  color: floralwhite;
+  font-family: "Nunito", serif;
 }
 
 .pagination {
