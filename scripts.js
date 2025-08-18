@@ -131,13 +131,25 @@ function renderCharacterGrid() {
         <p class="element ${char.element.toLowerCase()}">${char.element}</p>
         <p class="class">${char.class}</p>
         <div class="effects">
-          ${char.effects
-            .filter((e) => e && e !== "none")
-            .map(
-              (e) => `<span class="effect-tag">${e.replace(/_/g, " ")}</span>`
-            )
-            .join("")}
-        </div>
+          <span class="effect-tag">${
+            char.effects[0]?.replace(/_/g, " ") || ""
+          }</span>
+          ${
+            char.effects.length > 1
+              ? `
+            <details class="effect-dropdown">
+            <summary>+${char.effects.length - 1} more</summary>
+            ${char.effects
+              .slice(1)
+              .map(
+                (e) => `<span class="effect-tag">${e.replace(/_/g, " ")}</span>`
+              )
+              .join("")}
+            </details>
+            `
+              : ""
+          }
+            </div>
         <a href="character-detail.html?character=${
           char.id
         }" class="profile-btn">View Profile</a>
