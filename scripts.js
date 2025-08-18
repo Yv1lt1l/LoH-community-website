@@ -133,7 +133,9 @@ function renderCharacterGrid() {
         <div class="effects">
           ${char.effects
             .filter((e) => e && e !== "none")
-            .map((e) => `<span class="effect-tag">${e}</span>`)
+            .map(
+              (e) => `<span class="effect-tag">${e.replace(/_/g, " ")}</span>`
+            )
             .join("")}
         </div>
         <a href="character-detail.html?character=${
@@ -548,7 +550,10 @@ function renderSkillsByType(skills, type) {
   return `
     <ul class="effect-list">
       ${uniqueEffects
-        .map((effect) => `<li class="effect-item">${effect}</li>`)
+        .map(
+          (effect) =>
+            `<li class="effect-item">${effect.replace(/_/g, " ")}</li>`
+        )
         .join("")}
     </ul>
   `;
