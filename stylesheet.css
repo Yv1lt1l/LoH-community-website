@@ -481,7 +481,12 @@ footer {
   border-radius: 6px;
   text-decoration: none;
 }
-
+summary {
+  cursor: pointer;
+  font-family: "Nunito", serif;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+}
 /* Character Detai Page Styles */
 .character-detail {
   font-family: "Nunito", sans-serif;
