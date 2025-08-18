@@ -44,15 +44,37 @@
       "id": "earth_icateztol",
       "element": "Earth",
       "class": "Striker",
-      "description": "Placeholder text",
-      "effects": ["Poison"],
+      "description": "An offense striker, her recommended properties are Attack and Crit DMG",
+      "effects": [
+        "Regeneration",
+        "Action_Gauge_Up",
+        "Cleanse",
+        "Action_Ready",
+        "Proportional_DMG_Up",
+        "Conditional_Crit.Damage_Up"
+      ],
       "image": "../images/character-images/earth-icateztol.jpg",
-      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
+      "stats": { "atk": 481, "hp": 3972, "def": 372, "spd": 99 },
       "skills": [
         {
-          "name": "Leech",
-          "description": "Deals dmg and heals 20% HP based on 30% of damage dealt.",
-          "effects": ["Heals 20% HP"],
+          "name": "S1 (Basic ATK) Verdure Piercer",
+          "description": "Attacks selected enemy. Grants Regeneration to the user for 2 turns",
+          "effects": ["Regeneration"],
+          "type": "buff"
+        },
+        {
+          "name": "S2 (Skill) Verdant Wish",
+          "description": "Removes all debuffs from user. Fills the action gauge of the user by 100%. Additionally, grants Action Ready to the user for 3 turns. Action Ready fills the action gauge by 25% upon receiving damage. Hits taken by Counterattack, Assist, Blitz, and Flurry do not trigger this effect.",
+          "effects": ["Action_Ready", "Cleanse", "Action_Gauge_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Theos Quetzal",
+          "description": "Attacks all enemies. Deals up to 5x additional damage based on the targets maximum health. Additionally, critical hit damage of this attack increases by 100% if the user is under the effects of Action Ready.",
+          "effects": [
+            "Damage_Proportional_to_Enemy_HP",
+            "Conditional_Crit.Damage_Up"
+          ],
           "type": "buff"
         }
       ]
@@ -123,7 +145,7 @@
         {
           "name": "S2 (Skill) Flash Ignite",
           "description": "Attacks all enemies. Damage dealt increases based on the user's maximum health. Fills the action gauge of all allies by 40%. Increases Attack of all allies for 2 turns. Grants Solar Resolve for 2 turns. Solar Resolve increases damage dealt to enemies by 200%, damage taken by 20%, and reduces damage taken by all allies by 35% excluding Guardian heroes and allies under the effects of Resolve. This effect does not stack with Resolve and cannot be transferred or removed.",
-          "effects": ["Action_Gauge Up", "Attack_Up", "Solar_Resolve"],
+          "effects": ["Action_Gauge_Up", "Attack_Up", "Solar_Resolve"],
           "type": "buff"
         },
         {
