@@ -326,6 +326,7 @@ function filterCards() {
 
   state.currentPage = 1; // Reset to first page when filters change
   renderCharacterGrid();
+  sortCards();
 }
 
 function normalizeEffectName(effect) {
