@@ -151,6 +151,7 @@ async function init() {
     initializeFilters();
     scheduleRender();
     setupEventListeners();
+    setupEffectsExpansion();
     renderPagination();
   }
   showLoading(false);
@@ -229,6 +230,8 @@ function renderCharacterGrid() {
 
   initLazyLoad();
   renderPagination();
+  updateResultsCounter();
+  updateActiveFiltersCount();
 }
 
 function createCharacterCard(char) {
@@ -715,6 +718,54 @@ function setupTabs() {
         .classList.add("active");
     });
   });
+}
+
+function setupEffectsExpansion() {
+  const showMoreBtn = document.querySelector(".show-more-btn");
+  if (!showMoreBtn) return;
+
+  showMoreBtn.addEventListener("click", function () {
+    const effectsGrid = document.querySelector(".effects-grid");
+    if (!effectsGrid) return;
+
+    effectsGrid.classList.toggle("expanded");
+
+    if (effectsGrid.classList.contains("expanded")) {
+      showMoreBtn.innerHTML = "Show Less <span>▲</span>";
+    } else {
+      showMoreBtn.innerHTML = "Show More <span>▼</span>";
+    }
+  });
+}
+
+// Update results counter
+function updateResultsCounter() {
+  const showingCount = document.getElementById("showing-count");
+  const totalCount = document.getElementById("total-count");
+
+  if (showingCount && totalCount) {
+    const start = (state.currentPage - 1) * CONFIG.itemsPerPage;
+    const end = Math.min(
+      start + CONFIG.itemsPerPage,
+      state.filteredCharacters.length
+    );
+
+    showingCount.textContent = `${start + 1}-${end}`;
+    totalCount.textContent = state.filteredCharacters.length;
+  }
+}
+
+// Update active filters counter
+function updateActiveFiltersCount() {
+  const activeFiltersCount = document.querySelector(".active-filters-count");
+  if (!activeFiltersCount) return;
+
+  // Only count filters that are actively filtering (not null/empty)
+  const activeCount = Object.values(state.filters).filter(
+    (filter) => filter !== null && filter !== ""
+  ).length;
+
+  activeFiltersCount.textContent = activeCount;
 }
 
 function initLazyLoad() {

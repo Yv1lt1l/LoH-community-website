@@ -101,10 +101,23 @@
                 <button data-filter="Healing">Healing</button>
                 <button data-filter="none">No Effects</button>
               </div>
+              <button class="show-more-btn">
+                Show More <span>&darr;</span>
+              </button>
             </fieldset>
           </div>
-
-          <button id="resetFilters">Reset Filters</button>
+          <div class="filter-status">
+            <span
+              >Active filters: <span class="active-filters-count">0</span></span
+            >
+            <button id="resetFilters">Reset Filters</button>
+          </div>
+          <div class="results-info">
+            <div class="results-count">
+              Showing <span id="showing-count">0</span> of
+              <span id="total-count">0</span> characters
+            </div>
+          </div>
         </div>
       </section>
       <section id="characterGrid" class="cards"></section>
