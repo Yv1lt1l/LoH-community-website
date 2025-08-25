@@ -65,6 +65,8 @@ let state = {
   },
   sort: "name-asc",
   currentPage: 1,
+  _renderScheduled: false,
+  _searchIndex: [],
 };
 
 // DOM Elements
@@ -83,6 +85,54 @@ const dom = {
   loadingIndicator: document.getElementById("loading-indicator"),
 };
 
+// Singleton IntersectionObserver for lazy loading
+let lazyLoadObserver = null;
+
+// Utility Functions
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+function normalize(str) {
+  if (str === null || str === undefined) return "";
+  return str.toString().toLowerCase().trim();
+}
+
+function normalizeEffectName(effect) {
+  if (!effect) return "";
+  return effect.toLowerCase().replace(/\s+/g, "_");
+}
+
+function buildSearchIndex(characters) {
+  return characters.map((char) => ({
+    id: char.id,
+    searchable: [
+      char.name.toLowerCase(),
+      char.element.toLowerCase(),
+      char.class.toLowerCase(),
+      ...char.effects.map((e) => e.toLowerCase()),
+    ].join(" "),
+  }));
+}
+
+function scheduleRender() {
+  if (state._renderScheduled) return;
+
+  state._renderScheduled = true;
+  requestAnimationFrame(() => {
+    state._renderScheduled = false;
+    renderCharacterGrid();
+  });
+}
+
 // Main Initialization
 async function init() {
   showLoading(true);
@@ -99,7 +149,7 @@ async function init() {
       return;
     }
     initializeFilters();
-    renderCharacterGrid();
+    scheduleRender();
     setupEventListeners();
     renderPagination();
   }
@@ -118,15 +168,21 @@ async function loadCharacters() {
       effects: char.effects || [],
       skills: char.skills || [],
       stats: char.stats || { atk: 0, def: 0, spd: 0, hp: 0 },
+      // Precompute sort keys
+      _sortName: char.name.toLowerCase(),
+      _sortElement: char.element.toLowerCase(),
+      _sortClass: char.class.toLowerCase(),
     }));
 
     state.filteredCharacters = [...state.characters];
+    state._searchIndex = buildSearchIndex(state.characters);
     state.sort = "name-asc";
     sortCards();
   } catch (error) {
     console.error("Failed to load characters:", error);
     state.characters = [];
     state.filteredCharacters = [];
+    state._searchIndex = [];
 
     if (dom.container) {
       dom.container.innerHTML = `
@@ -159,52 +215,63 @@ function renderCharacterGrid() {
     return;
   }
 
-  dom.container.innerHTML = "";
+  // Use DocumentFragment for batch DOM updates
+  const fragment = document.createDocumentFragment();
 
   paginatedChars.forEach((char) => {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.dataset.name = char.name.toLowerCase();
-    card.dataset.element = char.element.toLowerCase();
-    card.dataset.class = char.class.toLowerCase();
-    card.dataset.effects = char.effects.join(" ").toLowerCase();
-
-    card.innerHTML = `
-      <img data-src="${char.image}" alt="${char.name}" class="lazyload">
-      <div class="card-content">
-        <h2>${char.name}</h2>
-        <p class="element ${char.element.toLowerCase()}">${char.element}</p>
-        <p class="class">${char.class}</p>
-        <div class="effects">
-          <span class="effect-tag">${
-            char.effects[0]?.replace(/_/g, " ") || ""
-          }</span>
-          ${
-            char.effects.length > 1
-              ? `
-            <details class="effect-dropdown">
-            <summary>+${char.effects.length - 1} more</summary>
-            ${char.effects
-              .slice(1)
-              .map(
-                (e) => `<span class="effect-tag">${e.replace(/_/g, " ")}</span>`
-              )
-              .join("")}
-            </details>
-            `
-              : ""
-          }
-            </div>
-        <a href="character-detail.html?character=${
-          char.id
-        }" class="profile-btn">View Profile</a>
-      </div>
-    `;
-    dom.container.appendChild(card);
+    const card = createCharacterCard(char);
+    fragment.appendChild(card);
   });
+
+  // Clear and append in one operation
+  dom.container.innerHTML = "";
+  dom.container.appendChild(fragment);
 
   initLazyLoad();
   renderPagination();
+}
+
+function createCharacterCard(char) {
+  const card = document.createElement("article");
+  card.className = "card";
+  card.dataset.name = char.name.toLowerCase();
+  card.dataset.element = char.element.toLowerCase();
+  card.dataset.class = char.class.toLowerCase();
+  card.dataset.effects = char.effects.join(" ").toLowerCase();
+
+  card.innerHTML = `
+    <img data-src="${char.image}" alt="${char.name}" class="lazyload">
+    <div class="card-content">
+      <h2>${char.name}</h2>
+      <p class="element ${char.element.toLowerCase()}">${char.element}</p>
+      <p class="class">${char.class}</p>
+      <div class="effects">
+        <span class="effect-tag">${
+          char.effects[0]?.replace(/_/g, " ") || ""
+        }</span>
+        ${
+          char.effects.length > 1
+            ? `
+          <details class="effect-dropdown">
+          <summary>+${char.effects.length - 1} more</summary>
+          ${char.effects
+            .slice(1)
+            .map(
+              (e) => `<span class="effect-tag">${e.replace(/_/g, " ")}</span>`
+            )
+            .join("")}
+          </details>
+          `
+            : ""
+        }
+          </div>
+      <a href="character-detail.html?character=${
+        char.id
+      }" class="profile-btn">View Profile</a>
+    </div>
+  `;
+
+  return card;
 }
 
 function renderCharacterDetailPage() {
@@ -343,21 +410,12 @@ function filterCards() {
   const { search, element, class: charClass, effect } = state.filters;
   const normalizedSearch = normalize(search);
 
-  state.filteredCharacters = state.characters.filter((char) => {
-    const name = char.name.toLowerCase();
-    const charElement = char.element.toLowerCase();
-    const charClassLower = char.class.toLowerCase();
-    const effects = char.effects.join(" ").toLowerCase();
-
+  state.filteredCharacters = state.characters.filter((char, index) => {
     const matchesSearch =
       !normalizedSearch ||
-      name.includes(normalizedSearch) ||
-      charElement.includes(normalizedSearch) ||
-      charClassLower.includes(normalizedSearch) ||
-      effects.includes(normalizedSearch);
-
-    const matchesElement = !element || charElement === element;
-    const matchesClass = !charClass || charClassLower === charClass;
+      state._searchIndex[index].searchable.includes(normalizedSearch);
+    const matchesElement = !element || char.element.toLowerCase() === element;
+    const matchesClass = !charClass || char.class.toLowerCase() === charClass;
     const matchesEffect =
       !effect ||
       (effect === "none"
@@ -370,40 +428,25 @@ function filterCards() {
   });
 
   state.currentPage = 1; // Reset to first page when filters change
-  renderCharacterGrid();
   sortCards();
 }
 
-function normalizeEffectName(effect) {
-  if (!effect) return "";
-  return effect.toLowerCase().replace(/\s+/g, "_");
-}
-
 function sortCards() {
-  console.log("Current sort:", state.sort);
-  const sortValue = state.sort;
+  const [sortKey, direction] = state.sort.split("-");
+  const sortField = `_sort${
+    sortKey.charAt(0).toUpperCase() + sortKey.slice(1)
+  }`;
 
   state.filteredCharacters.sort((a, b) => {
-    const sortKey = sortValue.split("-")[0];
-    console.log(`Sorting by ${sortKey}`);
-    const aValue = (a[sortKey] || "").toString().toLowerCase();
-    const bValue = (b[sortKey] || "").toString().toLowerCase();
+    const aValue = a[sortField] || "";
+    const bValue = b[sortField] || "";
 
-    switch (sortValue) {
-      case "name-asc":
-        return aValue.localeCompare(bValue);
-      case "name-desc":
-        return bValue.localeCompare(aValue);
-      case "element":
-        return aValue.localeCompare(bValue);
-      case "class":
-        return aValue.localeCompare(bValue);
-      default:
-        return 0;
-    }
+    return direction === "desc"
+      ? bValue.localeCompare(aValue)
+      : aValue.localeCompare(bValue);
   });
 
-  renderCharacterGrid();
+  scheduleRender();
 }
 
 function renderPagination() {
@@ -449,62 +492,46 @@ function renderPagination() {
 
   paginationHTML += `</div>`;
   dom.paginationContainer.innerHTML = paginationHTML;
-
-  // Add event listeners
-  document.querySelectorAll(".page-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (btn.classList.contains("disabled")) return;
-      state.currentPage = parseInt(btn.dataset.page);
-      renderCharacterGrid();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  });
 }
 
 // Event Handlers
 function setupEventListeners() {
-  // Search input
-  if (dom.searchInput) {
-    let searchTimeout;
-    const debounceDelay = 300; //ms delay
+  // Use event delegation for most click events
+  document.addEventListener("click", (e) => {
+    // Handle filter buttons
+    const filterBtn = e.target.closest(".filter-buttons button");
+    if (filterBtn) {
+      handleFilterButtonClick(filterBtn);
+      return;
+    }
 
-    dom.searchInput.addEventListener("input", () => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
+    // Handle pagination buttons
+    const pageBtn = e.target.closest(".page-btn");
+    if (pageBtn && !pageBtn.classList.contains("disabled")) {
+      state.currentPage = parseInt(pageBtn.dataset.page);
+      scheduleRender();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // Handle reset filters button in no-results message
+    const resetFiltersBtn = e.target.closest("#reset-filters-btn");
+    if (resetFiltersBtn) {
+      resetFilters();
+      return;
+    }
+  });
+
+  // Debounced Search input
+  if (dom.searchInput) {
+    dom.searchInput.addEventListener(
+      "input",
+      debounce(() => {
         state.filters.search = dom.searchInput.value;
         filterCards();
-      }, debounceDelay);
-    });
+      }, 300)
+    );
   }
-
-  // Filter buttons
-  dom.filterButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const filterValue = this.dataset.filter;
-      const filterGroup = this.closest(".filter-group");
-      if (!filterGroup) return;
-
-      const label = filterGroup.querySelector("label, legend");
-      if (!label) return;
-
-      const labelText = label.textContent.toLowerCase();
-      let filterType;
-
-      if (labelText.includes("element")) filterType = "element";
-      else if (labelText.includes("class")) filterType = "class";
-      else if (labelText.includes("effect")) filterType = "effect";
-      else return;
-
-      state.filters[filterType] = filterValue === "all" ? null : filterValue;
-      filterCards();
-
-      // Update UI
-      const buttonsContainer = this.closest(".filter-buttons");
-      buttonsContainer.querySelectorAll("button").forEach((b) => {
-        b.classList.toggle("active", b === this);
-      });
-    });
-  });
 
   // Sort select
   if (dom.sortSelect) {
@@ -514,7 +541,7 @@ function setupEventListeners() {
     });
   }
 
-  // Reset filters
+  // Reset filters button
   if (dom.resetBtn) {
     dom.resetBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -531,6 +558,32 @@ function setupEventListeners() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+}
+
+function handleFilterButtonClick(btn) {
+  const filterValue = btn.dataset.filter;
+  const filterGroup = btn.closest(".filter-group");
+  if (!filterGroup) return;
+
+  const label = filterGroup.querySelector("label, legend");
+  if (!label) return;
+
+  const labelText = label.textContent.toLowerCase();
+  let filterType;
+
+  if (labelText.includes("element")) filterType = "element";
+  else if (labelText.includes("class")) filterType = "class";
+  else if (labelText.includes("effect")) filterType = "effect";
+  else return;
+
+  state.filters[filterType] = filterValue === "all" ? null : filterValue;
+  filterCards();
+
+  // Update UI
+  const buttonsContainer = btn.closest(".filter-buttons");
+  buttonsContainer.querySelectorAll("button").forEach((b) => {
+    b.classList.toggle("active", b === btn);
+  });
 }
 
 function initializeFilters() {
@@ -585,11 +638,6 @@ function renderBuilds(builds) {
         .join("")}
     </div>
   `;
-}
-
-function normalize(str) {
-  if (str === null || str === undefined) return "";
-  return str.toString().toLowerCase().trim();
 }
 
 function countSkillsByType(skills, type) {
@@ -680,18 +728,22 @@ function initLazyLoad() {
     return;
   }
 
-  const lazyLoadObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.classList.remove("lazyload");
-        lazyLoadObserver.unobserve(img);
-      }
+  if (!lazyLoadObserver) {
+    lazyLoadObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove("lazyload");
+          lazyLoadObserver.unobserve(img);
+        }
+      });
     });
-  });
+  }
 
-  document.querySelectorAll(".lazyload").forEach((img) => {
+  // Only observe new images
+  document.querySelectorAll(".lazyload:not([data-observed])").forEach((img) => {
+    img.setAttribute("data-observed", "true");
     lazyLoadObserver.observe(img);
   });
 }
@@ -700,6 +752,17 @@ function showLoading(show) {
   if (!dom.loadingIndicator) return;
   dom.loadingIndicator.style.display = show ? "block" : "none";
 }
+
+// Cleanup function
+function cleanup() {
+  if (lazyLoadObserver) {
+    lazyLoadObserver.disconnect();
+    lazyLoadObserver = null;
+  }
+}
+
+// Add cleanup on page unload
+window.addEventListener("beforeunload", cleanup);
 
 // Start the application
 document.addEventListener("DOMContentLoaded", init);
