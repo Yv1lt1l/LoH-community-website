@@ -6,16 +6,54 @@
       "id": "water_lairei",
       "element": "Water",
       "class": "Sniper",
-      "description": "Placeholder text",
-      "effects": ["Freeze"],
+      "description": "A Support Sniper. Her recommended stats are Health and Speed. Acquired by Donation Event.",
+      "effects": [
+        "Crit.Damage_Up",
+        "Blitz",
+        "Speed_Up",
+        "Divine Luck",
+        "Remove Debuff",
+        "Damage_Against_Fire_Up",
+        "Spirit Gain"
+      ],
       "image": "../images/character-images/water-Lai.jpg",
-      "stats": { "atk": 1420, "hp": 140, "def": 980, "spd": 1200 },
+      "stats": { "atk": 425, "hp": 3556, "def": 348, "spd": 100 },
       "skills": [
         {
-          "name": "Frost Arrow",
-          "description": "Deals 180% ATK damage with 50% chance to Freeze",
-          "effects": ["Freeze"],
-          "type": "debuff"
+          "name": "S1 (Basic ATK) Dragonflame Dance",
+          "description": "Attacks the selected enemy. Increases Critical Hit Damage of the user and ally with the highest Attack for 1 turn. Additionally, has a 50% chance to trigger Blitz 1 time. When Blitz is triggered, Active Skill is immediately used regardless of its cooldown status. More than one Blitz cannot be triggered in a row.",
+          "effects": ["Crit.Damage_Up", "Blitz"],
+          "type": "buff"
+        },
+        {
+          "name": "S2 (Skill) Torrential Volley",
+          "description": "Attacks all enemies. 70% chance to increase Speed of each ally respectively for 2 turns. Additionally, grants Divine Luck to the user for 2 turns. Divine Luck gives a 15% chance to gain an extra turn. Up to 3 extra turns can be gained in this way.",
+          "effects": ["Speed_Up", "Divine_Luck"],
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Raging Waterstorm",
+          "description": "Attacks all enemies. 100% chance to remove 3 of the most recent debuffs from each ally respectively. This attack deals 300% more damage to fire enemies. Increases Crit.Damage of water allies for 2 turns. gains 2 Spirit.",
+          "effects": ["Remove_Debuff", "Crit.Damage_Up", "Spirit_Gain"],
+          "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Leviathan's Glory",
+          "description": "Increases damage dealt by all allies against fire enemies by 10%. This skill can only be upgraded by unlocking Aptitudes and cannot be reset. This effect does not stack.",
+          "effects": ["Increased_Allies_Damage_to_Fire"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Magnate's Insight",
+          "description": "Increases Health by 5%",
+          "effects": ["Health_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Golden Wordsmith",
+          "description": "Reduces damage taken from water enemies by 5%.",
+          "effects": ["Reduced_Damage_Taken_from_Water"],
+          "type": "buff"
         }
       ]
     },
@@ -25,15 +63,50 @@
       "id": "earth_lairei",
       "element": "Earth",
       "class": "Striker",
-      "description": "Placeholder text",
-      "effects": ["Freeze"],
+      "description": "An Earth Offense Striker. Her recommended stats are Attack and Crit Damage. Acquired via Hero Contract or Contract Summon.",
+      "effects": [
+        "Crit.Rate_Up",
+        "Crit.Damage_Up",
+        "Attack_up",
+        "Conditional_Damage_Up"
+      ],
       "image": "../images/character-images/earth-Lai.jpg",
-      "stats": { "atk": 1420, "hp": 0, "def": 980, "spd": 0 },
+      "stats": { "atk": 496, "hp": 3215, "def": 338, "spd": 100 },
       "skills": [
         {
-          "name": "Earth Arrow",
-          "description": "Deals 200% ATK damage with 50% chance to cleanse",
-          "effects": ["cleanse"],
+          "name": "S1 (Basic ATK) Dragonflame Dance",
+          "description": "Attacks the selected enemy. Increases Critical Hit Damage of the user by 25% (stacks up to 3 times). This effect expires after defeating a wave of enemies.",
+          "effects": ["Crit.Damage_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "S2 (Skill) Gale Volley",
+          "description": "Attacks all enemies. Increases Critical Hit Rate of the user for 2 turns (stacking up to 3 times). This effect expires after defeating a wave of enemies",
+          "effects": ["Crit.Rate_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "S3 (Ultimate) Raging Windstorm",
+          "description": "Attacks all enemies. Increases Attack of the user for 2 turns if the attack is a critical hit. Deals 100% more damage for every stack of Increased Critical Hit Rate on the user (up to a maximum of 300%)",
+          "effects": ["Attack_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Behemoth's Wrath",
+          "description": "Increases damage dealt against water-elemental enemies by 20%. This skill can only be upgraded by unlocking Aptitudes and cannot be reset.",
+          "effects": ["Increased_Damage_to_Water"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Paradise's Blessing",
+          "description": "Reduces damage taken from water-elemental enemies by 5%.",
+          "effects": ["Reduced_Damage_Taken_from_Water"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Blessed Dragoness",
+          "description": "Increases Critical Hit Damage by 10%",
+          "effects": ["Crit.Damage_Up"],
           "type": "buff"
         }
       ]
@@ -76,6 +149,24 @@
             "Conditional_Crit.Damage_Up"
           ],
           "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Behemoth's Wrath",
+          "description": "Increases damage dealt against water-elemental enemies by 20%. This skill can only be upgraded by unlocking Aptitudes and cannot be reset.",
+          "effects": ["Increased_Damage_to_Water"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Guardian of the Forest",
+          "description": "Increases damage to water enemies by 11%",
+          "effects": ["Damage_Against_Water"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Blooming Hope",
+          "description": "Increases Critical Hit Damage by 50%",
+          "effects": ["Crit.Damage_Up"],
+          "type": "buff"
         }
       ]
     },
@@ -113,6 +204,24 @@
           "name": "S3 (Ultimate) Deathscythe",
           "description": "Attacks all enemies. Damage dealt increases based on the user's Defense. Damage dealt increases by 200% if the user is under the effects of Revenge. Additionally, grants Resolve to the user for 3 turns. This attack deals 150% more damage against light elementals. Resolve increases damage dealt against enemies by 100%. Increases damage taken by the user by 35%. Additionally, reduces damage taken by all allies by 35%, except for Guardians and allies under the effects of Resolve.",
           "effects": ["Resolve"],
+          "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Nix's Protection",
+          "description": "Reduces damage taken by all allies from light-elemental enemies by 7%. Increases damage dealt by the user against light enemies by 7%. This skill can only be upgraded by unlocking Aptitudes and cannot be reset. this effect does not stack.",
+          "effects": ["Reduced_Damage_Taken", "Increase_Damage_dealt"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Compassion and Malevolence",
+          "description": "Increases damage dealt against light enemies by 20%.",
+          "effects": ["Increase_Damag_to_Light"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Usurper's Scythe",
+          "description": "Increase Defense by 25%",
+          "effects": ["Defense_Up"],
           "type": "buff"
         }
       ]
@@ -159,6 +268,18 @@
           "description": "Reduces damage taken by all allies from dark element enemies by 7%. Increases damage dealt by user against dark elementals by 7%.",
           "effects": ["Reduced_Damage_Taken", "Increase_Damage_Dealt"],
           "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Solar Blessing",
+          "description": "Increases Health by 25%",
+          "effects": ["Health_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Will of Humanity",
+          "description": "Increases damage dealt to dark enemies by 20%.",
+          "effects": ["Damage_Against_Dark"],
+          "type": "buff"
         }
       ]
     },
@@ -195,6 +316,63 @@
           "name": "S3 (Ultimate) Battleground Symphony",
           "description": "Heals all allies and grants Invincibility for 1 turn. Heal strength increases based on user's maximum health.",
           "effects": ["Invincibility"],
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "name": "Dark Arkanath",
+      "base_id": "arkanath",
+      "id": "dark_arkanath",
+      "element": "Dark",
+      "class": "Warrior",
+      "description": "A Support Warrior. Her recommended stats are Health and Speed. She's acquired by featured summon.",
+      "effects": [
+        "Exposed_Weakness",
+        "Hunter's_Mark",
+        "Flurry",
+        "Defense_Down",
+        "Conditional_Damage_Up",
+        "Action_Gauge_Down",
+        "Remove_Debuff"
+      ],
+      "image": "../images/character-images/ArkanathD3_newtest.webp",
+      "stats": { "atk": 248, "hp": 3215, "def": 447, "spd": 159 },
+      "skills": [
+        {
+          "name": "S1 (Basic ATK) Vanishing Strikes",
+          "description": "Attacks the selected enemy. 70% chance to inflict Exposed Weakness on the target for 2 turns. Additionally, inflicts 1 stack of Hunter's Mark on the target for 5 turns. Attack strength increases based on the user's Speed. Exposed Weakness increases damage taken by 5% for every debuff inflicted up to a maximum of 50%. Hunter's Mark stacks and serves as a condition for certain effects to be triggered.",
+          "effects": ["Exposed_Weakness", "Hunter's_Mark"],
+          "type": "buff"
+        },
+        {
+          "name": "S2 (Skill) Illusion Cutter",
+          "description": "Attacks all enemies. 80% chance to reduce Defense of the target for 2 turns. Addtionally, has a 80% chance to trigger Flurry 1 time. Additionally, inflicts 2 stacks of Hunter's Mark for 5 turns if the target is a light elemental. Attack strength increases based on user's Speed. Flurry uses Normal Attack on a random enemy. Flurry cannot be triggered multiple times in a row. Cannot be triggered by attacks that do not take turns.",
+          "effects": ["Defense_Down", "Flurry", "Hunter's_Mark"],
+          "type": "debuff"
+        },
+        {
+          "name": "S3 (Ultimate) Tempest of the Umbral Moon",
+          "description": "Attacks all enemies. Ignores Defense. This attack deals 150% more danmage if the target's Defense is reduced. 100% chance to reduce the action gauge of the target by 10% up to a maximum of 40% and deals 80% more damage up to 240% for every stack of Hunter's Mark on the target. Removes 2 stacks of Hunter's Mark from the target. Attack strength increases based on the user's Speed. ",
+          "effects": ["Action_Gauge_Down", "Conditional_Damage_Up"],
+          "type": "buff"
+        },
+        {
+          "name": "(Aptitude Skill) Nix's Tenacity",
+          "description": "Increases Attack and Defense of the user by 10% for every dark ally on the field.",
+          "effects": ["Defense_Up", "Increase_Damage_Dealt"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Unreachable Yearning",
+          "description": "Increases damage against light enemies by 5%",
+          "effects": ["Increase_Damage_to_Light"],
+          "type": "buff"
+        },
+        {
+          "name": "(Passive Skill) Footsteps of Shadow",
+          "description": "Increase Speed by 3",
+          "effects": ["Speed_Up"],
           "type": "buff"
         }
       ]

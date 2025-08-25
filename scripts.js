@@ -8,6 +8,51 @@ const CONFIG = {
   itemsPerPage: 12,
 };
 
+const effectTypes = {
+  // Buffs
+  "Crit.Damage_Up": "buff",
+  Blitz: "buff",
+  Speed_Up: "buff",
+  Divine_Luck: "buff",
+  Remove_Debuff: "buff",
+  Damage_Against_Fire_Up: "buff",
+  Spirit_Gain: "buff",
+  "Crit.Rate_Up": "buff",
+  Attack_Up: "buff",
+  Conditional_Damage_Up: "buff",
+  Regeneration: "buff",
+  Action_Gauge_Up: "buff",
+  Cleanse: "buff",
+  Action_Ready: "buff",
+  Proportional_DMG_Up: "buff",
+  "Conditional_Crit.Damage_Up": "buff",
+  Revenge: "buff",
+  Attack_Strength_Up: "buff",
+  Resolve: "buff",
+  Damage_Against_Light_Up: "buff",
+  Solar_Resolve: "buff",
+  Invincibility: "buff",
+  Increased_Damage_to_Water: "buff",
+  Reduced_Damage_Taken_from_Water: "buff",
+  Health_Up: "buff",
+  Defense_Up: "buff",
+  Increased_Damage_Dealt: "buff",
+  Increased_Damage_to_Light: "buff",
+  Healing: "buff",
+  Exposed_Weakness: "buff",
+  "Hunter's_Mark": "buff",
+  Flurry: "debuff",
+
+  // Debuffs
+  Defense_Down: "debuff",
+  Elemental_Weakness: "debuff",
+  Action_Gauge_Down: "debuff",
+};
+
+function classifyEffect(effectName) {
+  return effectTypes[effectName] || "buff";
+}
+
 // State
 let state = {
   characters: [],
@@ -421,12 +466,14 @@ function setupEventListeners() {
   // Search input
   if (dom.searchInput) {
     let searchTimeout;
+    const debounceDelay = 300; //ms delay
+
     dom.searchInput.addEventListener("input", () => {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
         state.filters.search = dom.searchInput.value;
         filterCards();
-      });
+      }, debounceDelay);
     });
   }
 
@@ -546,15 +593,20 @@ function normalize(str) {
 }
 
 function countSkillsByType(skills, type) {
-  return skills.filter((skill) => skill.type === type).length;
+  const effects = skills
+    .flatMap((skill) => skill.effects || [])
+    .filter((effect) => effectTypes[effect] === type);
+
+  const uniqueEffects = [...new Set(effects)];
+  return uniqueEffects.length;
 }
 
 function renderSkillsByType(skills, type) {
-  const filtered = skills
-    .filter((skill) => skill.type === type)
-    .flatMap((skill) => skill.effects || []);
+  const effects = skills
+    .flatMap((skill) => skill.effects || [])
+    .filter((effect) => effectTypes[effect] === type);
 
-  const uniqueEffects = [...new Set(filtered.map((e) => e.trim()))];
+  const uniqueEffects = [...new Set(effects)];
 
   if (uniqueEffects.length === 0) {
     return `<p class="no-effects">No ${type} effects</p>`;
