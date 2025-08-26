@@ -151,7 +151,6 @@ async function init() {
     initializeFilters();
     scheduleRender();
     setupEventListeners();
-    setupEffectsExpansion();
     renderPagination();
   }
   showLoading(false);
@@ -717,24 +716,6 @@ function setupTabs() {
         .getElementById(`${tab.dataset.tab}-pane`)
         .classList.add("active");
     });
-  });
-}
-
-function setupEffectsExpansion() {
-  const showMoreBtn = document.querySelector(".show-more-btn");
-  if (!showMoreBtn) return;
-
-  showMoreBtn.addEventListener("click", function () {
-    const effectsGrid = document.querySelector(".effects-grid");
-    if (!effectsGrid) return;
-
-    effectsGrid.classList.toggle("expanded");
-
-    if (effectsGrid.classList.contains("expanded")) {
-      showMoreBtn.innerHTML = "Show Less <span>▲</span>";
-    } else {
-      showMoreBtn.innerHTML = "Show More <span>▼</span>";
-    }
   });
 }
 
