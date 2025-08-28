@@ -253,6 +253,54 @@ p {
 }
 
 /* Filter Section Styles */
+.effects-filter-group {
+  order: 3; /* Position effects filter at the end */
+  grid-column: 1 / -1; /* Make it span all columns */
+  border-top: 2px solid #444;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.effects-filter-buttons {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  max-height: 120px;
+}
+
+/* Custom scrollbar for effects */
+.effects-filter-buttons::-webkit-scrollbar {
+  width: 6px;
+}
+
+.effects-filter-buttons::-webkit-scrollbar-track {
+  background: rgba(40, 40, 40, 0.5);
+  border-radius: 3px;
+}
+
+.effects-filter-buttons::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 3px;
+}
+
+.effects-filter-buttons::-webkit-scrollbar-thumb:hover {
+  background: #f39c12;
+}
+
+/* Scroll indicator */
+.effects-filter-group::after {
+  content: "↕ Scroll for more";
+  display: block;
+  text-align: right;
+  font-size: 1.2rem;
+  color: #f1c40f;
+  font-style: italic;
+  margin-top: 5px;
+}
+
 .filter-section {
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -310,6 +358,7 @@ p {
   margin-bottom: 2rem;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
 .filter-group {
@@ -1081,6 +1130,10 @@ summary {
     width: 200px;
     height: 200px;
   }
+
+  .effects-filter-buttons {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
@@ -1091,5 +1144,18 @@ summary {
   .meta-tags {
     flex-direction: column;
     align-items: center;
+  }
+  .effects-filter-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .effects-filter-buttons button {
+    min-width: unset;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .effects-filter-group::after {
+    content: "Scroll → for more";
   }
 }

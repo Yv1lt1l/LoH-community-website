@@ -150,6 +150,7 @@ async function init() {
     }
     initializeFilters();
     scheduleRender();
+    initializeEffectsFilter();
     setupEventListeners();
     renderPagination();
   }
@@ -408,6 +409,92 @@ function renderCharacterDetail(character) {
 }
 
 // Filtering, Sorting and Pagination
+function initializeEffectsFilter() {
+  const effectsContainer = document.querySelector(".effects-filter-buttons");
+  if (!effectsContainer) return;
+
+  // Clear existing content
+  effectsContainer.innerHTML = "";
+
+  // Get all unique effects from characters
+  const allEffects = getAllEffectsFromCharacters();
+
+  // Add "All" button
+  const allButton = createEffectButton("all", "All", true);
+  effectsContainer.appendChild(allButton);
+
+  // Add "No Effects" button
+  const noneButton = createEffectButton("none", "No Effects", false);
+  effectsContainer.appendChild(noneButton);
+
+  // Sort effects alphabetically and add buttons
+  const sortedEffects = Object.keys(allEffects).sort((a, b) => {
+    return allEffects[a].localeCompare(allEffects[b]);
+  });
+
+  sortedEffects.forEach((effectKey) => {
+    const button = createEffectButton(effectKey, allEffects[effectKey], false);
+    effectsContainer.appendChild(button);
+  });
+
+  // Add event listeners to effect buttons
+  addEffectButtonListeners();
+}
+
+// Extract all unique effects from characters
+function getAllEffectsFromCharacters() {
+  const effects = {};
+
+  state.characters.forEach((character) => {
+    if (character.effects && Array.isArray(character.effects)) {
+      character.effects.forEach((effect) => {
+        if (!effects[effect]) {
+          effects[effect] = effect.replace(/_/g, " ");
+        }
+      });
+    }
+  });
+
+  return effects;
+}
+
+// Create effect button element
+function createEffectButton(filterValue, displayText, isActive) {
+  const button = document.createElement("button");
+  button.setAttribute("data-filter", filterValue);
+  button.textContent = displayText;
+
+  if (isActive) {
+    button.classList.add("active");
+  }
+
+  return button;
+}
+
+// Add event listeners to effect buttons
+function addEffectButtonListeners() {
+  const effectButtons = document.querySelectorAll(
+    ".effects-filter-buttons button"
+  );
+
+  effectButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // Remove active class from all buttons in this group
+      const buttonsContainer = this.closest(".effects-filter-buttons");
+      buttonsContainer.querySelectorAll("button").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      // Add active class to clicked button
+      this.classList.add("active");
+
+      // Update the effect filter
+      state.filters.effect =
+        this.dataset.filter === "all" ? null : this.dataset.filter;
+      filterCards();
+    });
+  });
+}
 function filterCards() {
   const { search, element, class: charClass, effect } = state.filters;
   const normalizedSearch = normalize(search);
