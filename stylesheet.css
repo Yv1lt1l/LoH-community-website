@@ -253,6 +253,11 @@ p {
 }
 
 /* Filter Section Styles */
+#sort-select {
+  font-family: "Nunito";
+  border: 2px solid #4a4a4a;
+}
+
 .effects-filter-group {
   order: 3; /* Position effects filter at the end */
   grid-column: 1 / -1; /* Make it span all columns */
@@ -541,6 +546,7 @@ p {
   font-family: "Nunito", sans-serif;
   font-size: 1.4rem;
   color: #ddd;
+  max-height: 8rem;
 }
 
 .active-filters-count {
@@ -557,10 +563,11 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 0;
-  padding: 1.5rem;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
   background: rgba(40, 40, 40, 0.7);
   border-radius: 0.8rem;
+  max-height: 8rem;
 }
 
 .results-count {
