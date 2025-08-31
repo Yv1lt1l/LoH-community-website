@@ -160,7 +160,7 @@ async function init() {
 // Data Loading
 async function loadCharacters() {
   try {
-    const response = await fetch("../details/characters.json");
+    const response = await fetch("details/characters.json");
     const data = await response.json();
     state.characters = data.characters.map((char) => ({
       ...char,
