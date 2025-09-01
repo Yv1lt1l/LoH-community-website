@@ -110,7 +110,7 @@ p {
   padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: calc(7 * 280px + 6 * 2rem);
+  max-width: calc(6 * 280px + 6 * 2rem);
   margin: 0 auto;
 }
 

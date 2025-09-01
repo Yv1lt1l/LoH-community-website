@@ -338,6 +338,62 @@
           "effects": ["Speed_Up"]
         }
       ]
+    },
+    {
+      "name": "Water Aslan",
+      "base_id": "aslan",
+      "id": "water_aslan",
+      "element": "Water",
+      "class": "Commander",
+      "description": "A Support Commander. His recommended stats are Attack and Speed. He's acquired by Hero Contract/Contract Summon",
+      "effects": [
+        "Action_Gauge_Down",
+        "Taking_The_Lead",
+        "Speed_Up",
+        "Attack_Strength_Up",
+        "DMG_based_on_target_max_HP_Up",
+        "Action_Gauge_Up",
+        "Burst_Gauge_Gain_Up"
+      ],
+      "image": "../images/character-images/AslanW3_illust.webp",
+      "stats": { "atk": 394, "hp": 3820, "def": 391, "spd": 104 },
+      "skills": [
+        {
+          "name": "S1 (Basic ATK) Graviton Slash",
+          "description": "Attacks the selected enemy. 90% chance to reduce the action gauge of the target by 10%. 90% chance to reduce the action gauge of the target by an additional 20% if the target is a fire elemental.",
+          "effects": ["Action_Gauge_Down"]
+        },
+        {
+          "name": "S2 (Skill) Call to Arms",
+          "description": "Grants Taking the Lead to the user (stacks up to 4 times). Increases Speed of all allies for 2 turns. Increases Attack Strength of all water allies for 2 turns.",
+          "effects": ["Taking_The_Lead", "Speed_Up", "Attack_Strength_Up"]
+        },
+        {
+          "name": "S3 (Ultimate) Mountain Crusher",
+          "description": "Attacks the selected enemy. Deals up to 5x additional damage based on the target's maximum health. Triggers the following effects based on number of stacks of Taking the Lead on the user. 1 or more stacks: Fills the action gauge of the ally with the highest Attack by 30%. 2 or more stacks: Fills the action gauge of the ally with the highest Attack by an additional 30%. 4 or more stacks: Fills the action gauge of the ally with the highest Attack by an additional 40% if the ally is a water elemental.",
+          "effects": ["Action_Gauge_Up", "DMG_based_on_target_max_HP_Up"]
+        },
+        {
+          "name": "(Commander Skill) Pillar of Conquest",
+          "description": "Increases burst gauge gain of all allies by 100% within the Calamity's Cradle and the Temporal Rift.",
+          "effects": ["Burst_Gauge_Gain_Up"]
+        },
+        {
+          "name": "(Aptitude Skill) Leviathan's Grace",
+          "description": "Deals 3% additional damage that ignores defense for every water ally on the field upon attacking (up to a maximum of 24%).",
+          "effects": ["Defense_Ignore"]
+        },
+        {
+          "name": "(Passive Skill) Unmatched Pride",
+          "description": "Increases Speed by 3",
+          "effects": ["Speed_Up"]
+        },
+        {
+          "name": "(Passive Skill) Dewdrop Vitality",
+          "description": "Increases damage against fire enemies by 5%",
+          "effects": ["Damage_Against_Fire_Up"]
+        }
+      ]
     }
   ]
 }
