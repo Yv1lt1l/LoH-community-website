@@ -153,6 +153,8 @@ async function init() {
     initializeEffectsFilter();
     setupEventListeners();
     renderPagination();
+    initMobileMenu();
+    enhanceTouchInteractions();
   }
   showLoading(false);
 }
@@ -406,6 +408,90 @@ function renderCharacterDetail(character) {
   `;
 
   setupTabs();
+}
+
+// Mobile menu functionality for character detail pages
+
+function initMobileMenu() {
+  //Only run on mobile screens
+  if (window.innerWidth < 769) {
+    //Create mobile menu toggle button
+    const menuToggle = document.createElement("button");
+    menuToggle.innerHTML = "☰ Menu";
+    menuToggle.className = "mobile-menu-toggle";
+    menuToggle.style.cssText = `
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Nunito', sans-serif;
+      display: block;
+    `;
+
+    document.body.appendChild(menuToggle);
+
+    // Handle sidebar if it exists
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar) {
+      sidebar.style.display = "none";
+      sidebar.style.position = "fixed";
+      sidebar.style.top = "0";
+      sidebar.style.left = "0";
+      sidebar.style.height = "100vh";
+      sidebar.style.width = "70%";
+      sidebar.style.maxWidth = "300px";
+      sidebar.style.zIndex = "999";
+      sidebar.style.overflowY = "auto";
+      sidebar.style.paddingTop = "50px";
+      sidebar.style.transform = "translateX(-100%)";
+      sidebar.style.transition = "transform 0.3s ease";
+
+      menuToggle.addEventListener("click", () => {
+        const isVisible = sidebar.style.transform === "translateX(0%)";
+        sidebar.style.transform = isVisible
+          ? "translateX(-100%)"
+          : "translateX(0%)";
+      });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        sidebar &&
+        !sidebar.contains(e.target) &&
+        e.target !== menuToggle &&
+        sidebar.style.transform === "translateX(0%)"
+      ) {
+        sidebar.style.transform = "translateX(-100%)";
+      }
+    });
+  }
+}
+
+// Touch-friendly card interactions
+function enhanceTouchInteractions() {
+  // Enable passive event listeners for better scrolling performance
+  document.addEventListener("touchstart", function () {}, { passive: true });
+
+  // Prevent zoom on double-tap
+  let lastTap = 0;
+  document.addEventListener(
+    "touchend",
+    function (event) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        event.preventDefault();
+      }
+      lastTap = currentTime;
+    },
+    false
+  );
 }
 
 // Filtering, Sorting and Pagination
