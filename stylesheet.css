@@ -1394,16 +1394,21 @@ summary {
   }
 
   .filter-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    max-width: 1040px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 130rem));
+    max-width: 131rem;
   }
 
   .filter-group {
     min-width: 15rem;
   }
 
+  .filter-group legend {
+    font-size: 1.6rem;
+  }
+
   .filter-buttons button {
     min-width: 120px;
+    margin: 0 0.5rem 0.5rem 1rem;
   }
 
   .effects-filter-buttons {
@@ -1476,6 +1481,35 @@ summary {
   }
 
   .effect-content {
+    font-size: 1.6rem;
+  }
+
+  .element.dark {
+    font-size: 1.6rem;
+  }
+
+  .element.earth {
+    font-size: 1.6rem;
+  }
+
+  .element.water {
+    font-size: 1.6rem;
+  }
+
+  .element.fire {
+    font-size: 1.6rem;
+  }
+
+  .element.light {
+    font-size: 1.6rem;
+  }
+
+  .class {
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+  }
+
+  summary {
     font-size: 1.6rem;
   }
 }
