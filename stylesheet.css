@@ -1422,6 +1422,62 @@ summary {
   .builds-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+  .character-detail {
+    display: flex;
+    flex-direction: column;
+    width: 120rem;
+    max-width: 100%;
+  }
+  .character-header {
+    display: flex;
+    flex-direction: column;
+    place-self: center;
+    place-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 40rem;
+    max-width: 100%;
+  }
+
+  .no-variants {
+    font-size: 1.4rem;
+  }
+
+  .element-icons {
+    place-self: center;
+  }
+
+  .character-bio {
+    font-size: 1.6rem;
+  }
+
+  .recommended-builds {
+    font-size: 1.6rem;
+  }
+
+  .character-stats {
+    font-size: 1.6rem;
+  }
+
+  .stat-label {
+    font-size: 1.6rem;
+  }
+
+  .character-skills {
+    font-size: 1.6rem;
+  }
+
+  .effect-tab {
+    font-size: 1.6rem;
+  }
+
+  .effect-content {
+    font-size: 1.6rem;
+  }
 }
 
 /* Additional responsive utilities */
