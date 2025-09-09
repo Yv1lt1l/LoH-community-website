@@ -394,6 +394,160 @@
           "effects": ["Damage_Against_Fire_Up"]
         }
       ]
+    },
+    {
+      "name": "Fire Aurea",
+      "base_id": "aurea",
+      "id": "fire_aurea",
+      "element": "Fire",
+      "class": "Warrior",
+      "description": "A Support Warrior. Her recommended stats are Defense and Speed. SHe's acquired by Featured Summon",
+      "effects": [
+        "Hunter's_Mark",
+        "Remove_Debuff",
+        "Speed_Up",
+        "Pierce",
+        "Divine_Luck",
+        "Flurry",
+        "Conditional_Damage_Up",
+        "Action_Gauge_Up"
+      ],
+      "image": "../images/character-images/AslanW3_illust.webp",
+      "stats": { "atk": 434, "hp": 3479, "def": 351, "spd": 110 },
+      "skills": [
+        {
+          "name": "S1 (Basic ATK) One Moment Please",
+          "description": "Attacks the selected enemy. Inflicts 1 stack of Hunters Mark on the target for 5 turns. Damage dealt increases based on the user's Speed. Upon counterattacking, Increases Speed of the user by 3 (stacks up to 10 times). This effect expires after defeating a wave of enemies. Hunter's Mark is an effect that stacks and serves as a condition for certain effects to be triggered.",
+          "effects": ["Hunter's_Mark", "Speed_Up"]
+        },
+        {
+          "name": "S2 (Skill) Almost Finished!",
+          "description": "Removes all debuffs from the user. Grants Pierce and Divine Luck to the user for 3 turns. Additionally, has a 80% chance to trigger Flurry respectively up to a maximum of 2 times. Divine Luck features a 25% chance to gain an extra turn. Up to 3 extra turns can be gained this way. Flurry is an effect that will use a Normal Attack on a random enemy. Cannot be triggered by attacks that do not take turns.",
+          "effects": ["Remove_Debuff", "Pierce", "Divine_Luck", "Flurry"]
+        },
+        {
+          "name": "S3 (Ultimate) All Done!",
+          "description": "Attacks all enemies. Deals 200% more damage if the user is under the effects of Divine Luck. Damage dealt increases based on the user's Speed. Triggers the following effects based on the number of Hunter's Mark Stacks on the target. 2 or more stacks: Deals 100% more damage. 4 or more stacks: Deals 100% more damage. 6 or more: Removes all Hunter's Mark stacks from the target and fills the action gauge of all allies by 100%.",
+          "effects": ["Conditional_Damage_Up"]
+        },
+        {
+          "name": "(Aptitude Skill) Ifrit's Tenacity",
+          "description": "Increases Attack and Defense of the user by 10% for every fire ally on the field.",
+          "effects": ["Attack_Up", "Defense_Up"]
+        },
+        {
+          "name": "(Passive Skill) Basting",
+          "description": "Increases Speed by 3",
+          "effects": ["Speed_Up"]
+        },
+        {
+          "name": "(Passive Skill) Tying Off",
+          "description": "Increases damage against earth enemies by 5%",
+          "effects": ["Damage_Against_Fire_Up"]
+        }
+      ]
+    },
+    {
+      "name": "Water Baretta",
+      "base_id": "baretta",
+      "id": "water_baratta",
+      "element": "Water",
+      "class": "Cleric",
+      "description": "An Offense Cleric. Her recommended stats are Attack and Speed. She's acquired by Hero Contract/Contract Summon",
+      "effects": [
+        "Healing",
+        "Fortitude",
+        "Sleep",
+        "Shield",
+        "Attack_Up",
+        "Damage_Against_Fire_Up",
+        "Action_Gauge_Up"
+      ],
+      "image": "../images/character-images/AslanW3_illust.webp",
+      "stats": { "atk": 441, "hp": 3488, "def": 341, "spd": 101 },
+      "skills": [
+        {
+          "name": "S1 (Basic ATK) Fly Like a Butterfly",
+          "description": "Attacks the selected enemy. Heals the ally with the lowest health based on the user's Attack. Healing is in proportion to the user's attack power. 50% chance for her luck to kick in and heal the ally a second time.",
+          "effects": ["Healing"]
+        },
+        {
+          "name": "S2 (Skill) Relax Like a Boss",
+          "description": "Heal all allies based on the user's Attack. 50% chance for her luck to kick in and increase all allies' action gauges by 40%. 99% chance to grant Fortitude to the user for 1 turn. Fortitude makes it impossible to fall in battle regardless of damage taken.",
+          "effects": ["Healing", "Action_Gauge_Up", "Fortitude"]
+        },
+        {
+          "name": "S3 (Ultimate) Sting Like a Bee",
+          "description": "Attacks the selected enemy. Fully heals the user before putting her to sleep for 1 turn(s). Generates a shield for all allies based on the user's attack power that lasts 2 turn(s).",
+          "effects": ["Healing", "Sleep", "Shield"]
+        },
+        {
+          "name": "(Aptitude Skill) Leviathan's Blessing",
+          "description": "Upon taking a turn, 15% chance to revive water-elemental allies and heal them for 15% of their health.",
+          "effects": ["Healing"]
+        },
+        {
+          "name": "(Passive Skill) Best Bet",
+          "description": "Increases Resistance by 3",
+          "effects": ["Speed_Up"]
+        },
+        {
+          "name": "(Passive Skill) Chaotic Clumsiness",
+          "description": "Reduces damage taken from fire enemies by 5%.",
+          "effects": ["Reduced_Damage_Taken_from_Fire"]
+        }
+      ]
+    },
+    {
+      "name": "Dark Brandon",
+      "base_id": "brandon",
+      "id": "dark_brandon",
+      "element": "Dark",
+      "class": "Sniper",
+      "description": "An Offense Sniper. His recommended stats are Health and Speed. He's acquired by Featured Summon",
+      "effects": [
+        "Attack_Down",
+        "Speed_Down",
+        "Sap",
+        "Defense_Down",
+        "Damage_Based_On_Buff_Up",
+        "Damage_Against_Fire_Up",
+        "Revenge"
+      ],
+      "image": "../images/character-images/AslanW3_illust.webp",
+      "stats": { "atk": 481, "hp": 3141, "def": 410, "spd": 105 },
+      "skills": [
+        {
+          "name": "S1 (Basic ATK) Fly Like a Butterfly",
+          "description": "Attacks the selected enemy. Heals the ally with the lowest health based on the user's Attack. Healing is in proportion to the user's attack power. 50% chance for her luck to kick in and heal the ally a second time.",
+          "effects": ["Healing"]
+        },
+        {
+          "name": "S2 (Skill) Relax Like a Boss",
+          "description": "Heal all allies based on the user's Attack. 50% chance for her luck to kick in and increase all allies' action gauges by 40%. 99% chance to grant Fortitude to the user for 1 turn. Fortitude makes it impossible to fall in battle regardless of damage taken.",
+          "effects": ["Healing", "Action_Gauge_Up", "Fortitude"]
+        },
+        {
+          "name": "S3 (Ultimate) Sting Like a Bee",
+          "description": "Attacks the selected enemy. Fully heals the user before putting her to sleep for 1 turn(s). Generates a shield for all allies based on the user's attack power that lasts 2 turn(s).",
+          "effects": ["Healing", "Sleep", "Shield"]
+        },
+        {
+          "name": "(Aptitude Skill) Leviathan's Blessing",
+          "description": "Upon taking a turn, 15% chance to revive water-elemental allies and heal them for 15% of their health.",
+          "effects": ["Healing"]
+        },
+        {
+          "name": "(Passive Skill) Best Bet",
+          "description": "Increases Resistance by 3",
+          "effects": ["Speed_Up"]
+        },
+        {
+          "name": "(Passive Skill) Chaotic Clumsiness",
+          "description": "Reduces damage taken from fire enemies by 5%.",
+          "effects": ["Reduced_Damage_Taken_from_Fire"]
+        }
+      ]
     }
   ]
 }
