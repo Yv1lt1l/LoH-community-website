@@ -511,16 +511,15 @@
         "Sap",
         "Defense_Down",
         "Damage_Based_On_Buff_Up",
-        "Damage_Against_Fire_Up",
         "Revenge"
       ],
       "image": "../images/character-images/AslanW3_illust.webp",
       "stats": { "atk": 481, "hp": 3141, "def": 410, "spd": 105 },
       "skills": [
         {
-          "name": "S1 (Basic ATK) Fly Like a Butterfly",
-          "description": "Attacks the selected enemy. Heals the ally with the lowest health based on the user's Attack. Healing is in proportion to the user's attack power. 50% chance for her luck to kick in and heal the ally a second time.",
-          "effects": ["Healing"]
+          "name": "S1 (Basic ATK) Souls' Banquet",
+          "description": "Attacks the selected enemy. 80% chance to reduce Attack and Speed of the target for 2 turn(s).",
+          "effects": ["Attack_Down", "Speed_Down"]
         },
         {
           "name": "S2 (Skill) Relax Like a Boss",

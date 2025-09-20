@@ -1087,7 +1087,7 @@ summary {
 /* ===== RESPONSIVE LAYOUTS ===== */
 
 /* Mobile Layout (up to 768px) */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   html {
     font-size: 58%;
   }
@@ -1274,7 +1274,7 @@ summary {
   }
 
   /* Small phones (up to 360px) */
-  @media (max-width: 360px) {
+  @media screen and (max-width: 360px) {
     html {
       font-size: 55%;
     }
@@ -1304,7 +1304,7 @@ summary {
   }
 
   /* Tablets (portrait and larger phones (481px to 768px) */
-  @media (min-width: 481px) and (max-width: 768px) {
+  @media screen and (min-width: 481px) and (max-width: 768px) {
     html {
       font-size: 60%;
     }
@@ -1333,7 +1333,7 @@ summary {
 }
 
 /* Tablet Layout (769px to 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media screen and (min-width: 769px) and (max-width: 1024px) {
   body {
     grid-template-columns: 18rem 1fr;
     gap: 0.8rem;
@@ -1355,38 +1355,50 @@ summary {
 }
 
 /* Desktop Layout (1025px and up) */
-@media (min-width: 1025px) {
+@media screen and (min-width: 1025px) {
   body {
     display: grid;
-    grid-template-areas:
-      "header header"
-      "sidebar main"
-      "footer footer";
-    grid-template-columns: 22rem 1fr;
+    grid-template-columns: 20rem 1fr;
     grid-template-rows: auto 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 0.8rem;
+    padding: 0.8rem;
+  }
+
+  header,
+  footer {
+    grid-column: 1 / -1;
+  }
+
+  main {
+    grid-column: 2;
   }
 
   .card-holder {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 0fr));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
-    gap: 2rem;
-    max-width: calc(6 * 280px + 6 * 2rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .card {
-    width: 250px;
-    max-width: 250px;
-    padding: 1.5rem;
+    width: 100%;
+    max-width: none;
+    padding: 1.2rem;
   }
 
   .card img {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
   }
 
   .card h2 {
@@ -1394,12 +1406,14 @@ summary {
   }
 
   .filter-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 130rem));
-    max-width: 131rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    max-width: 100%;
+    padding: 1rem;
+    gap: 1rem;
   }
 
   .filter-group {
-    min-width: 15rem;
+    min-width: unset;
   }
 
   .filter-group legend {
@@ -1515,7 +1529,7 @@ summary {
 }
 
 /* Additional responsive utilities */
-@media (max-height: 500px) and (orientation: landscape) {
+@media screen and (max-height: 500px) and (orientation: landscape) {
   .filter-container {
     max-height: 40vh;
     overflow-y: auto;
